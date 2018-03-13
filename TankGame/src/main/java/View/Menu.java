@@ -53,7 +53,7 @@ public class Menu {
         menu.add(exit);
         egesz.add(menu);
         egesz.add(game);
-        form.pack();
+        //form.pack();
         form.setVisible(true);
     }
 
