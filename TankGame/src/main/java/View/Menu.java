@@ -1,6 +1,7 @@
 package View;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,19 +18,13 @@ public class Menu {
         form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         form.setLayout(new BorderLayout());
         form.setSize(800,600);
-
-
         Container egesz=form.getContentPane();
         egesz.setLayout(new GridLayout(1,1));
         final JPanel menu=new JPanel();
         final JPanel game=new JPanel();
         menu.setLayout(new GridLayout(3,1));
-
         final JButton play=new JButton();
-        play.setSize(1000,500);
-        play.setBackground(Color.GRAY);
-        play.setText("Play");
-        play.setBorder(null);
+        ButtonSetup(play,"Play",Color.GRAY,null,100,50);
         play.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 menu.setVisible(false);
@@ -38,12 +33,8 @@ public class Menu {
         });
         mouseEvent(play);
         menu.add(play);
-
         final JButton valami=new JButton();
-        valami.setSize(1000,500);
-        valami.setBackground(Color.GRAY);
-        valami.setText("Valami");
-        valami.setBorder(null);
+        ButtonSetup(valami,"Valami",Color.GRAY,null,100,50);
         valami.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Megnyomtad a gombot" , "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -51,12 +42,8 @@ public class Menu {
         });
         mouseEvent(valami);
         menu.add(valami);
-
         final JButton exit=new JButton();
-        exit.setSize(1000,500);
-        exit.setBackground(Color.GRAY);
-        exit.setText("Exit");
-        exit.setBorder(null);
+        ButtonSetup(exit,"Exit",Color.GRAY,null,100,50);
         exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
@@ -84,6 +71,12 @@ public class Menu {
                 button.setBackground(Color.GRAY);
             }
         });
+    }
+    private static void ButtonSetup(JButton hutton,String text, Color color, Border border,int width,int height){
+        hutton.setSize(width,height);
+        hutton.setBackground(color);
+        hutton.setText(text);
+        hutton.setBorder(border);
     }
 
 }
