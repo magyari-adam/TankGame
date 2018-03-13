@@ -36,18 +36,7 @@ public class Menu {
                 game.setVisible(true);
             }
         });
-        play.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                play.setBackground(Color.GREEN);
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                play.setBackground(Color.GRAY);
-            }
-        });
+        mouseEvent(play);
         menu.add(play);
 
         final JButton valami=new JButton();
@@ -60,19 +49,7 @@ public class Menu {
                 JOptionPane.showMessageDialog(null, "Megnyomtad a gombot" , "Information", JOptionPane.INFORMATION_MESSAGE);
             }
         });
-        valami.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                valami.setBackground(Color.GREEN);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                valami.setBackground(Color.GRAY);
-            }
-        });
+        mouseEvent(valami);
         menu.add(valami);
 
         final JButton exit=new JButton();
@@ -85,22 +62,29 @@ public class Menu {
                 System.exit(0);
             }
         });
-        exit.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                exit.setBackground(Color.GREEN);
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                exit.setBackground(Color.GRAY);
-            }
-        });
+        mouseEvent(exit);
         menu.add(exit);
         egesz.add(menu);
         egesz.add(game);
-        //form.pack();
+        form.pack();
         form.setVisible(true);
     }
+
+    private static void mouseEvent(final JButton button){
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                button.setBackground(Color.GREEN);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                button.setBackground(Color.GRAY);
+            }
+        });
+    }
+
 }
+
