@@ -72,6 +72,7 @@ public class Menu {
             }
         });
     }
+
     private static void ButtonSetup(JButton hutton,String text, Color color, Border border,int width,int height){
         hutton.setSize(width,height);
         hutton.setBackground(color);
@@ -80,4 +81,3 @@ public class Menu {
     }
 
 }
-
