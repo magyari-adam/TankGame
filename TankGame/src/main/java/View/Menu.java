@@ -23,37 +23,33 @@ public class Menu {
         final JPanel menu=new JPanel();
         final JPanel game=new JPanel();
         menu.setLayout(new GridLayout(3,1));
-        final JButton play=new JButton();
-        ButtonSetup(play,"Play",Color.GRAY,null,100,50);
+        JButton play=new JButton();
+        play=ButtonSetup(play,"Play",Color.GRAY,null,100,50);
         play.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 menu.setVisible(false);
                 game.setVisible(true);
             }
         });
-        mouseEvent(play);
         menu.add(play);
-        final JButton valami=new JButton();
-        ButtonSetup(valami,"Valami",Color.GRAY,null,100,50);
+        JButton valami=new JButton();
+        valami=ButtonSetup(valami,"Valami",Color.GRAY,null,100,50);
         valami.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Megnyomtad a gombot" , "Information", JOptionPane.INFORMATION_MESSAGE);
             }
         });
-        mouseEvent(valami);
         menu.add(valami);
-        final JButton exit=new JButton();
-        ButtonSetup(exit,"Exit",Color.GRAY,null,100,50);
+        JButton exit=new JButton();
+        exit=ButtonSetup(exit,"Exit",Color.GRAY,null,100,50);
         exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
-        mouseEvent(exit);
         menu.add(exit);
         egesz.add(menu);
         egesz.add(game);
-        //form.pack();
         form.setVisible(true);
     }
 
@@ -73,11 +69,13 @@ public class Menu {
         });
     }
 
-    private static void ButtonSetup(JButton hutton,String text, Color color, Border border,int width,int height){
-        hutton.setSize(width,height);
-        hutton.setBackground(color);
-        hutton.setText(text);
-        hutton.setBorder(border);
+    private static JButton ButtonSetup(JButton button,String text, Color color, Border border,int width,int height){
+        button.setSize(width,height);
+        button.setBackground(color);
+        button.setText(text);
+        button.setBorder(border);
+        mouseEvent(button);
+        return button;
     }
 
 }
