@@ -7,50 +7,71 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.UnsupportedLookAndFeelException;
+
 
 public class Menu {
     public static void main(String args[]){
-        inic();
+        initializeMenu();
+        try{
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        }catch(ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex ){
+            System.out.println("Error during UnsupportedLookAndFeel initilalization");
+        }
     }
-    private static void inic(){
-        final JFrame form= new JFrame();
-        form.setTitle("TankGame");
-        form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        form.setLayout(new BorderLayout());
-        form.setSize(800,600);
-        Container egesz=form.getContentPane();
-        egesz.setLayout(new GridLayout(1,1));
-        final JPanel menu=new JPanel();
-        final JPanel game=new JPanel();
-        menu.setLayout(new GridLayout(3,1));
-        JButton play=new JButton();
-        play=ButtonSetup(play,"Play",Color.GRAY,null,100,50);
-        play.addActionListener(new ActionListener() {
+
+    private static void initializeMenu(){
+        final JFrame menuWindow = new JFrame();
+        menuWindow.setTitle("TankGame");
+        menuWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        menuWindow.setLayout(new BorderLayout());
+        menuWindow.setSize(800,600);
+
+        Container container = menuWindow.getContentPane();
+        container.setLayout(new GridLayout(1,1));
+        final JPanel menuPanel = new JPanel();
+        final JPanel gamePanel = new JPanel();
+        menuPanel.setLayout(new GridLayout(3,1));
+        final JButton playButton = new JButton();
+
+
+        buttonSetup(playButton,"Play",Color.GRAY,null,100,50);
+        playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                menu.setVisible(false);
-                game.setVisible(true);
+                menuPanel.setVisible(false);
+                gamePanel.setVisible(true);
             }
         });
-        menu.add(play);
-        JButton valami=new JButton();
-        valami=ButtonSetup(valami,"Valami",Color.GRAY,null,100,50);
-        valami.addActionListener(new ActionListener() {
+
+
+
+        menuPanel.add(playButton);
+        final JButton settingsButton = new JButton();
+        buttonSetup(settingsButton,"Settings",Color.GRAY,null,100,50);
+        settingsButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Megnyomtad a gombot" , "Information", JOptionPane.INFORMATION_MESSAGE);
             }
         });
-        menu.add(valami);
-        JButton exit=new JButton();
-        exit=ButtonSetup(exit,"Exit",Color.GRAY,null,100,50);
-        exit.addActionListener(new ActionListener() {
+        menuPanel.add(settingsButton);
+
+        final JButton exitButton = new JButton();
+        buttonSetup(exitButton,"Quit",Color.GRAY,null,100,50);
+        exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
-        menu.add(exit);
-        egesz.add(menu);
-        egesz.add(game);
-        form.setVisible(true);
+
+        menuPanel.add(exitButton);
+        container.add(menuPanel);
+        container.add(gamePanel);
+        menuWindow.setVisible(true);
     }
 
     private static void mouseEvent(final JButton button){
@@ -69,13 +90,12 @@ public class Menu {
         });
     }
 
-    private static JButton ButtonSetup(JButton button,String text, Color color, Border border,int width,int height){
+    private static void buttonSetup(JButton button, String text, Color color, Border border, int width, int height){
         button.setSize(width,height);
         button.setBackground(color);
         button.setText(text);
         button.setBorder(border);
         mouseEvent(button);
-        return button;
     }
 
 }
