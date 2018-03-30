@@ -23,6 +23,23 @@ public class Vec2D {
         return y;
     }
 
+    public void setX(int x){
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void add(Vec2D vec){
+        this.setX(this.getX() + vec.getX());
+        this.setY(this.getY() + vec.getY());
+    }
+
+    public static Vec2D add(Vec2D lhs,Vec2D rhs){
+        return new Vec2D(lhs.getX()+rhs.getX(),lhs.getY()+rhs.getY());
+    }
+
     @Override
     public String toString() {
         return "(" + x + "," + y + ")";
