@@ -21,8 +21,16 @@ public class Bullet {
         return new Vec2D(position);
     }
 
+    public void setPosition(Vec2D position) {
+        this.position = position;
+    }
+
     public Vec2D getVelocity() {
         return new Vec2D(velocity);
+    }
+
+    public void setVelocity(Vec2D velocity) {
+        this.velocity = velocity;
     }
 
     @Override
@@ -36,10 +44,10 @@ public class Bullet {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Bullet)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Bullet bullet = (Bullet) o;
-        return Objects.equals(getPosition(), bullet.getPosition()) &&
-                Objects.equals(getVelocity(), bullet.getVelocity());
+        return Objects.equals(position, bullet.position) &&
+                Objects.equals(velocity, bullet.velocity);
     }
 
     @Override

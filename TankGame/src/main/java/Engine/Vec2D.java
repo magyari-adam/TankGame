@@ -1,5 +1,7 @@
 package Engine;
 
+import java.util.Objects;
+
 public class Vec2D {
 
     private int x;
@@ -13,6 +15,11 @@ public class Vec2D {
     public Vec2D(int positionX, int positionY) {
         this.x = positionX;
         this.y = positionY;
+    }
+
+    public Vec2D(Vec2D other){
+        this.x = other.x;
+        this.y = other.y;
     }
 
     public int getX() {
@@ -32,12 +39,21 @@ public class Vec2D {
     }
 
     public void add(Vec2D vec){
-        this.setX(this.getX() + vec.getX());
-        this.setY(this.getY() + vec.getY());
+        this.x += vec.x;
+        this.y += vec.y;
     }
 
     public static Vec2D add(Vec2D lhs,Vec2D rhs){
-        return new Vec2D(lhs.getX()+rhs.getX(),lhs.getY()+rhs.getY());
+        return new Vec2D(lhs.x+rhs.x,lhs.y+rhs.y);
+    }
+
+    public void times(int n){
+        this.x *= n;
+        this.y *= n;
+    }
+
+    public double length(){
+        return Math.sqrt(x*x+y*y);
     }
 
     @Override
@@ -46,24 +62,16 @@ public class Vec2D {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (!(obj instanceof Vec2D)) {
-            return false;
-        }
-        if (((Vec2D) obj).x == this.x && ((Vec2D) obj).y == this.y) {
-            return true;
-        } else return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vec2D vec2D = (Vec2D) o;
+        return x == vec2D.x &&
+                y == vec2D.y;
     }
 
     @Override
     public int hashCode() {
-        return (("" + this.x) + this.y).hashCode();
-    }
-
-    public Vec2D(Vec2D other){
-        this(other.getX(),other.getY());
+        return Objects.hash(x, y);
     }
 }
