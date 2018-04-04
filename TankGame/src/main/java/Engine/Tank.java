@@ -4,50 +4,85 @@ import java.util.Objects;
 
 public class Tank {
 
-    private Vec2D actualPosition;
-    private int amountOfHealth;
+    private Vec2D position;
+    private int health;
+    private int turretAngle;
+    private int angleToTerrain;
 
     public Tank(){
-        actualPosition = new Vec2D();
-        amountOfHealth = 0;
+        position = new Vec2D();
+        health = 0;
     }
 
-    public Tank(Vec2D actualPosition, int amountOfHealth){
-        this.actualPosition = actualPosition;
-        this.amountOfHealth = amountOfHealth;
+    public Tank(Vec2D position, int health){
+        this.position = position;
+        this.health = health;
+        this.turretAngle = 0;
+        this.angleToTerrain = 0;
+    }
+
+    public Tank(Vec2D position, int health, int turretAngle, int angleToTerrain){
+        this.position = position;
+        this.health = health;
+        this.turretAngle = turretAngle;
+        this.angleToTerrain = angleToTerrain;
+    }
+
+    public Vec2D getPosition() {
+        return new Vec2D(position);
+    }
+
+    public void setPosition(Vec2D position) {
+        this.position = position;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getTurretAngle() {
+        return turretAngle;
+    }
+
+    public void setTurretAngle(int turretAngle) {
+        this.turretAngle = turretAngle;
+    }
+
+    public int getAngleToTerrain() {
+        return angleToTerrain;
+    }
+
+    public void setAngleToTerrain(int angleToTerrain) {
+        this.angleToTerrain = angleToTerrain;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Tank)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Tank tank = (Tank) o;
-        return amountOfHealth == tank.amountOfHealth &&
-                Objects.equals(actualPosition, tank.actualPosition);
+        return health == tank.health &&
+                turretAngle == tank.turretAngle &&
+                angleToTerrain == tank.angleToTerrain &&
+                Objects.equals(position, tank.position);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(actualPosition, amountOfHealth);
-    }
-
-    public Vec2D getActualPosition() {
-        return new Vec2D(actualPosition);
-    }
-
-    public int getAmountOfHealth() {
-        return amountOfHealth;
+        return Objects.hash(position, health, turretAngle, angleToTerrain);
     }
 
     @Override
     public String toString() {
         return "Tank{" +
-                "actualPosition=" + actualPosition +
-                ", amountOfHealth=" + amountOfHealth +
+                "position=" + position +
+                ", health=" + health +
+                ", turretAngle=" + turretAngle +
+                ", angleToTerrain=" + angleToTerrain +
                 '}';
-    }
-
-    public void updatePosition(Vec2D param){
-        actualPosition = param;
     }
 }
