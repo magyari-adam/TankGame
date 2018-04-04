@@ -12,6 +12,8 @@ public class Tank {
     public Tank(){
         position = new Vec2D();
         health = 0;
+        turretAngle = 0;
+        angleToTerrain = 0;
     }
 
     public Tank(Vec2D position, int health){
