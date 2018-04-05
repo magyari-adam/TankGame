@@ -1,5 +1,6 @@
 package View;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -7,6 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.Buffer;
 import javax.swing.UnsupportedLookAndFeelException;
 
 
@@ -36,15 +42,17 @@ public class Menu {
         container.setLayout(new GridLayout(1,1));
         final JPanel menuPanel = new JPanel();
         final JPanel gamePanel = new JPanel();
-        menuPanel.setLayout(new GridLayout(3,1));
         final JButton playButton = new JButton();
 
 
         buttonSetup(playButton,"Play",Color.GRAY,null,100,50);
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                menuPanel.setVisible(false);
-                gamePanel.setVisible(true);
+                container.remove(menuPanel);
+                Render background=new Render(0,0,gamePanel);
+                Graphics g=gamePanel.getGraphics();
+                background.paintbattleground(gamePanel.getWidth(),gamePanel.getHeight(),g);
+                gamePanel.paintComponents(g);
             }
         });
 
