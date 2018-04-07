@@ -3,30 +3,26 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Objects;
 
 public class Render extends JPanel {
-    private int xPoz;
-    private int yPoz;
-    private JPanel panel;
+
     private BufferedImage image;
+    private int pozX;
+    private int pozY;
 
-    public Render() {
-        this.xPoz = 0;
-        this.yPoz = 0;
+    public Render(){
+        this.setPreferredSize(new Dimension(800,600));
+        this.setMinimumSize(new Dimension(800,600));
+        this.setMaximumSize(new Dimension(800,600));
+        this.setLayout(new GridLayout(1,1));
+
     }
 
-    public Render(int xPoz, int yPoz, JPanel panel) {
-        this.xPoz = xPoz;
-        this.yPoz = yPoz;
-        this.panel = panel;
-    }
-
-    public Render(int xPoz, int yPoz, JPanel panel, BufferedImage image,Graphics graphics) {
-        this.xPoz = xPoz;
-        this.yPoz = yPoz;
-        this.panel = panel;
-        this.image = image;
+    public Render(int width, int height){
+        this.setPreferredSize(new Dimension(width,height));
+        this.setMinimumSize(new Dimension(width,height));
+        this.setMaximumSize(new Dimension(width,height));
+        this.setLayout(new GridLayout(1,1));
     }
 
     public void paintbattleground(int width, int height,Graphics graphics) {
@@ -34,78 +30,23 @@ public class Render extends JPanel {
         battleGround.setStroke(new BasicStroke(2));
         battleGround.setColor(Color.GREEN);
         Polygon p = new Polygon();
-        for (int x = 0; x <= 800; x++) {
+        for (int x = 0; x <= width; x++) {
             p.addPoint(x, (int) (height/2- Math.round((float)20*Math.sin(4/10*x*x+6/10*x+20))));
         }
         battleGround.drawPolygon(p);
     }
 
-    public void paintbackgroundimage(Graphics graphics) {
-        Graphics2D background = (Graphics2D) graphics;
-        background.drawImage(image, 0, 0, panel);
-    }
-
-    public void imagerender(int diffx, int diffy,Graphics graphics) {
-        xPoz += diffx;
-        yPoz += diffy;
-        if (xPoz != panel.getWidth() && xPoz != panel.getHeight() && yPoz != panel.getWidth() && yPoz != panel.getHeight()) {
-            Graphics2D imagePicture = (Graphics2D) graphics;
-            imagePicture.drawImage(image, xPoz, yPoz, panel);
-        } else {
-            xPoz = panel.getWidth() - 30;
-            yPoz = panel.getHeight() - 30;
-            Graphics2D imagePicture = (Graphics2D) graphics;
-            imagePicture.drawImage(image, xPoz, yPoz, panel);
-        }
-    }
-
-    public int getxPoz() {
-        return xPoz;
-    }
-
-    public void setxPoz(int xPoz) {
-        this.xPoz = xPoz;
-    }
-
-    public int getyPoz() {
-        return yPoz;
-    }
-
-    public void setyPoz(int yPoz) {
-        this.yPoz = yPoz;
-    }
-
-    public JPanel getPanel() {
-        return panel;
-    }
-
-    public void setPanel(JPanel panel) {
-        this.panel = panel;
-    }
-
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    public void setImage(BufferedImage image) {
-        this.image = image;
+    public void paintimagetopanel(BufferedImage backgound,int pozX, int pozY){
+            this.image=backgound;
+            this.pozX=pozX;
+            this.pozY=pozY;
+            paintComponent(this.getGraphics());
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Render)) return false;
-        Render render = (Render) o;
-        return getxPoz() == render.getxPoz() &&
-                getyPoz() == render.getyPoz() &&
-                Objects.equals(getPanel(), render.getPanel()) &&
-                Objects.equals(getImage(), render.getImage()) &&
-                Objects.equals(getGraphics(), render.getGraphics());
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image,pozX,pozY,null);
     }
 
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(getxPoz(), getyPoz(), getPanel(), getImage(), getGraphics());
-    }
 }

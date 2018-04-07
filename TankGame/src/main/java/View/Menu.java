@@ -1,14 +1,18 @@
 package View;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Menu extends  BaseWindow{
 
     private Container gc = getContentPane();
-    private JPanel gamePanel;
+    private Render gamePanel;
 
     public Menu(){
 
@@ -33,9 +37,8 @@ public class Menu extends  BaseWindow{
         setJMenuBar(menu);
         menu.setVisible(true);
 
-        gamePanel = new JPanel();
+        gamePanel = new Render(800,600);
 
-        gamePanel.setLayout(new GridLayout(1,1));
 
         gc.setLayout(new BorderLayout());
         gc.add(gamePanel,BorderLayout.CENTER);
@@ -47,7 +50,15 @@ public class Menu extends  BaseWindow{
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            Render background=new Render(0,0,gamePanel);
+
+            BufferedImage image = null;
+            try {
+                image = ImageIO.read(getClass().getResource("/assets/bg.png"));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            gamePanel.paintimagetopanel(image,0,0);
+            Render background=new Render();
             Graphics g=gamePanel.getGraphics();
             background.paintbattleground(gamePanel.getWidth(),gamePanel.getHeight(),g);
             gamePanel.paintComponents(g);
