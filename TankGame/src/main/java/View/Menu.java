@@ -6,13 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class Menu extends  BaseWindow{
 
     private Container gc = getContentPane();
     private Render gamePanel;
+    int pozx=50;
+    int pozy=50;
 
     public Menu(){
 
@@ -37,7 +38,7 @@ public class Menu extends  BaseWindow{
         setJMenuBar(menu);
         menu.setVisible(true);
 
-        gamePanel = new Render(800,600);
+        gamePanel = new Render();
 
 
         gc.setLayout(new BorderLayout());
@@ -50,18 +51,18 @@ public class Menu extends  BaseWindow{
         @Override
         public void actionPerformed(ActionEvent e)
         {
-
-            BufferedImage image = null;
+            BufferedImage backgroundimg = null;
+            BufferedImage image=null;
             try {
-                image = ImageIO.read(getClass().getResource("/assets/bg.png"));
+                backgroundimg = ImageIO.read(getClass().getResource("/assets/bg.png"));
+                image=ImageIO.read(getClass().getResource("/assets/tankfull.png"));
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            gamePanel.paintimagetopanel(image,0,0);
-            Render background=new Render();
-            Graphics g=gamePanel.getGraphics();
-            background.paintbattleground(gamePanel.getWidth(),gamePanel.getHeight(),g);
-            gamePanel.paintComponents(g);
+            gamePanel.paintbackgroundtopanel(backgroundimg,0,0);
+            gamePanel.paintbattleground(gamePanel.getWidth(),gamePanel.getHeight(),gamePanel.getGraphics());
+            gamePanel.paintimagetopanel(image,0,0,image.getWidth(),image.getHeight(),pozx,pozy,pozx+image.getWidth(),pozy+image.getHeight());
+
         }
     };
 
