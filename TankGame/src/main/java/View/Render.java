@@ -38,14 +38,14 @@ public class Render extends JPanel implements KeyListener {
         battleGround.setColor(Color.GREEN);
         Polygon p = new Polygon();
         for (int x = 0; x < width; x++) {
-            p.addPoint(x, (int) (height/2- Math.round((float)20*Math.sin(4/10.f*x*x+6/10.f*x+20))));
+            p.addPoint(x, (int) (height/2- Math.round((float)20*Math.sin(4/10.0*x*x+6/10.0*x+20))));
 
         }
         battleGround.drawPolygon(p);
     }
 
-    public void paintbackgroundtopanel(BufferedImage backgound,int pozX, int pozY){
-            this.image=backgound;
+    public void paintbackgroundtopanel(BufferedImage background,int pozX, int pozY){
+            this.image=background;
             this.destpozX1=pozX;
             this.destpozY1=pozY;
             this.destpozX2=this.getWidth();
