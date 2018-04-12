@@ -1,5 +1,8 @@
 package View;
 
+import Engine.Bullet;
+import Engine.Tank;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -17,6 +20,8 @@ public class Render extends JPanel implements KeyListener {
     private int subsourcepozY1;
     private int subsourcepozX2;
     private int subsourcepozY2;
+    private Tank tanks[];
+    private Bullet bullets[];
 
     public Render(){
         this.setPreferredSize(new Dimension(800,600));
@@ -26,22 +31,26 @@ public class Render extends JPanel implements KeyListener {
 
     }
 
-    public Render(int width, int height){
-        this.setPreferredSize(new Dimension(width,height));
-        this.setMinimumSize(new Dimension(width,height));
-        this.setMaximumSize(new Dimension(width,height));
-    }
+    public void paintbattleground(boolean map[][]) {
 
-    public void paintbattleground(int width, int height,Graphics graphics) {
-        Graphics2D battleGround = (Graphics2D) graphics;
+        for (int x=0;x<800;x++){
+            for (int y=0;y<600;y++){
+                if (map[x][y]){
+                    this.getGraphics().setColor(Color.GREEN);
+                    this.getGraphics().drawLine(x,y,x,y);
+                }
+            }
+        }
+
+        /*Graphics2D battleGround = (Graphics2D) this.getGraphics();
         battleGround.setStroke(new BasicStroke(2));
         battleGround.setColor(Color.GREEN);
         Polygon p = new Polygon();
-        for (int x = 0; x < width; x++) {
-            p.addPoint(x, (int) (height/2- Math.round((float)20*Math.sin(4/10.0*x*x+6/10.0*x+20))));
+        for (int x = 0; x < this.getWidth(); x++) {
+            p.addPoint(x, (int) (this.getHeight()/2- Math.round((float)20*Math.sin(4/10.0*x*x+6/10.0*x+20))));
 
         }
-        battleGround.drawPolygon(p);
+        battleGround.drawPolygon(p);*/
     }
 
     public void paintbackgroundtopanel(BufferedImage background,int pozX, int pozY){
@@ -87,18 +96,7 @@ public class Render extends JPanel implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-
-        int keycode=e.getKeyCode();
-        switch (keycode){
-            case KeyEvent.VK_UP:
-                break;
-            case KeyEvent.VK_DOWN:
-                break;
-            case KeyEvent.VK_LEFT:
-                break;
-            case KeyEvent.VK_RIGHT:
-                break;
-        }
+        //Enginebe ha majd lesz fgv amit meg lehet hívni akkor átadjuk neki a gombot
     }
 
     /**
