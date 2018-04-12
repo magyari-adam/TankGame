@@ -32,6 +32,29 @@ public class MapModel {
         }
     }
 
+    public void refreshMap(Vec2D position,int radius){
+        mapRepresentation[position.getX()][position.getY()] = false;
+        for (int i = 0;i<radius;i++){
+            mapRepresentation[position.getX() + i][position.getY() + i] = false;
+            mapRepresentation[position.getX() + i][position.getY() - i] = false;
+            mapRepresentation[position.getX() - i][position.getY() + i] = false;
+            mapRepresentation[position.getX() - i][position.getY() - i] = false;
+        }
+    }
+
+
+    public int getFloorHeight(int column){
+        if (column >= mapRepresentation.length) return -1; //this means, that the parameter is bigger than the size of the array
+        int counter = 0;
+        for (int j = 0;j<mapRepresentation[column].length;j++){
+            if (mapRepresentation[column][j]){
+                return ++counter;
+            }else{
+                counter++;
+            }
+        }
+        return counter;
+    }
 
     public boolean[][] getMapRepresentation(){
         // nincs másolva, referencia van visszadva
