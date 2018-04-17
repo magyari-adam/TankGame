@@ -12,8 +12,10 @@ public class Menu extends  BaseWindow{
 
     private Container gc = getContentPane();
     private Render gamePanel;
-    int pozx=50;
-    int pozy=50;
+    private int pozx=500;
+    private int pozy=500;
+    private boolean palya[][];
+
 
     public Menu(){
 

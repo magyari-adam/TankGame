@@ -1,6 +1,7 @@
 package View;
 
 import Engine.Bullet;
+import Engine.Engine;
 import Engine.Tank;
 
 import javax.swing.*;
@@ -32,7 +33,6 @@ public class Render extends JPanel implements KeyListener {
     }
 
     public void paintbattleground(boolean map[][]) {
-
         for (int x=0;x<800;x++){
             for (int y=0;y<600;y++){
                 if (map[x][y]){
@@ -41,16 +41,6 @@ public class Render extends JPanel implements KeyListener {
                 }
             }
         }
-
-        /*Graphics2D battleGround = (Graphics2D) this.getGraphics();
-        battleGround.setStroke(new BasicStroke(2));
-        battleGround.setColor(Color.GREEN);
-        Polygon p = new Polygon();
-        for (int x = 0; x < this.getWidth(); x++) {
-            p.addPoint(x, (int) (this.getHeight()/2- Math.round((float)20*Math.sin(4/10.0*x*x+6/10.0*x+20))));
-
-        }
-        battleGround.drawPolygon(p);*/
     }
 
     public void paintbackgroundtopanel(BufferedImage background,int pozX, int pozY){
@@ -96,7 +86,7 @@ public class Render extends JPanel implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        //Enginebe ha majd lesz fgv amit meg lehet hívni akkor átadjuk neki a gombot
+        Engine.keyEventRecognizer(e);
     }
 
     /**

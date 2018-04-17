@@ -15,7 +15,7 @@ public class Engine {
         this.mapModel = mapModel;
     }
 
-    public void keyEventRecognizer(KeyEvent event){
+    public static void keyEventRecognizer(KeyEvent event){
         // to something with the event
     }
 }
