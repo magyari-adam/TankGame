@@ -21,15 +21,18 @@ public class Render extends JPanel implements KeyListener {
     private int subsourcepozY1;
     private int subsourcepozX2;
     private int subsourcepozY2;
-    private Tank tanks[];
-    private Bullet bullets[];
+    private Tank tanks;
+    private Bullet bullets;
+    private Engine engine;
+    private BufferedImage fullscreen;
+    private Graphics fullgraph;
 
     public Render(){
         this.setPreferredSize(new Dimension(800,600));
         this.setMinimumSize(new Dimension(800,600));
         this.setMaximumSize(new Dimension(800,600));
         setOpaque(false);
-
+        engine=new Engine(tanks,bullets,null);//szerintem itt majd kellene egy konstruktor átírás
     }
 
     public void paintbattleground(boolean map[][]) {
@@ -54,6 +57,7 @@ public class Render extends JPanel implements KeyListener {
             this.subsourcepozX2=image.getWidth();
             this.subsourcepozY2=image.getHeight();
             paintComponent(this.getGraphics());
+
     }
 
     public void paintimagetopanel(BufferedImage image,int sx1,int sy1,int sx2,int sy2,int pozX1, int pozY1,int pozX2,int pozY2){
@@ -75,6 +79,12 @@ public class Render extends JPanel implements KeyListener {
         super.paintComponent(g);
         g.drawImage(image,destpozX1,destpozY1,destpozX2,destpozY2,subsourcepozX1,subsourcepozY1,subsourcepozX2,subsourcepozY2,null);
     }
+    /*public void refresh(){
+        paintComponent(fullgraph);
+    }*/
+    public void rotation(){
+
+    }
 
 
     /**
@@ -86,7 +96,7 @@ public class Render extends JPanel implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        Engine.keyEventRecognizer(e);
+        engine.keyEventRecognizer(e);
     }
 
     /**

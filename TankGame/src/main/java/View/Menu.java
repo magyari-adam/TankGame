@@ -12,8 +12,8 @@ public class Menu extends  BaseWindow{
 
     private Container gc = getContentPane();
     private Render gamePanel;
-    private int pozx=500;
-    private int pozy=500;
+    private int pozx=50;
+    private int pozy=50;
     private boolean palya[][];
 
 
@@ -64,6 +64,7 @@ public class Menu extends  BaseWindow{
             gamePanel.paintbackgroundtopanel(backgroundimg,0,0);
             //gamePanel.paintbattleground();
             gamePanel.paintimagetopanel(image,0,0,image.getWidth(),image.getHeight(),pozx,pozy,pozx+image.getWidth(),pozy+image.getHeight());
+            //gamePanel.refresh();
 
         }
     };
