@@ -7,7 +7,7 @@ public class MapModel {
     public MapModel(){
         for(int i = 0;i<mapRepresentation.length;i++){
             for(int j = 0;j<mapRepresentation[0].length;j++){
-                if (i > 400){
+                if (j > 400){
                     mapRepresentation[i][j] = true;
                 }
             }
@@ -20,7 +20,7 @@ public class MapModel {
                 for(int i = 0;i<mapRepresentation.length;i++){
                     int terrainBorder = (int)SceneryGenerator.generateGraphicsWithFirstPattern(i);
                     for (int j = 0;j<mapRepresentation[i].length;j++){
-                        if(i > terrainBorder){
+                        if(j > terrainBorder){
                             mapRepresentation[i][j] = true;
                         }
                     }
