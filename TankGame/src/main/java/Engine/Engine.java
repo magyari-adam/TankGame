@@ -1,23 +1,24 @@
 package Engine;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class Engine {
 
-    private Tank[] tanks;
-    private Bullet[] bullets;
+    private ArrayList<Tank> tanks;
+    private ArrayList<Bullet> bullets;
     private MapModel mapModel;
 
-    public Engine(){
-        tanks=new Tank[2];//nope
-        tanks[0]=new Tank(new Vec2D(50,50),10);//nope
-        tanks[1]=new Tank(new Vec2D(300,50),10);//nope
-        bullets=new Bullet[1];
-        bullets[0]=new Bullet(new Vec2D(145,55),new Vec2D());
+    public Engine() {
+        tanks = new ArrayList<>();//nope
+        tanks.add(new Tank(new Vec2D(50, 50), 10));//nope
+        tanks.add(new Tank(new Vec2D(300, 50), 10));//nope
+        bullets = new ArrayList<>();
+        bullets.add( new Bullet(new Vec2D(145, 55), new Vec2D()));
         this.mapModel = new MapModel(FunctionChooser.first);
     }
 
-    public Engine(Tank[] tank, Bullet[] bullet) {
+    public Engine(ArrayList<Tank> tank, ArrayList<Bullet> bullet) {
         this.tanks = tank;
         this.bullets = bullet;
         this.mapModel = new MapModel(FunctionChooser.first);
@@ -37,20 +38,36 @@ public class Engine {
             case KeyEvent.VK_DOWN:
                 System.out.println("down pressed");
                 break;
+            case KeyEvent.VK_SPACE:
+                System.out.println("Space pressed");
+                break;
             default:
                 System.out.println("Unrecognized indentifier");
         }
     }
 
+    public void recognizeEventFromOutside(){
+
+    }
+
+    public void move(Vec2D newPlace){
+
+    }
+
+    public void shoot(Vec2D vel){
+
+    }
+
+
     public MapModel getMap() {
         return this.mapModel;
     }
 
-    public Tank[] getTanks() {
+    public ArrayList<Tank> getTanks() {
         return this.tanks;
     }
 
-    public Bullet[] getBullets() {
+    public ArrayList<Bullet> getBullets() {
         return bullets;
     }
 }

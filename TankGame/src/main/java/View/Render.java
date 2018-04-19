@@ -13,6 +13,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Render extends JPanel implements KeyListener {
 
@@ -82,53 +83,32 @@ public class Render extends JPanel implements KeyListener {
     public void refresh() {
         paintBackgroundToPanel();
         paintBattleground();
-        int tanknumber = engine.getTanks().length;
-        Tank tanks[] = engine.getTanks();
-        for (int i = 0; i < tanknumber; i++) {
+        ArrayList<Tank> tanks = engine.getTanks();
+        for (int i = 0; i < tanks.size(); i++) {
             if (i % 2 == 0) {
-                paintImageToPanel(tank, tanks[i].getPosition().getX(), tanks[i].getPosition().getY());
+                paintImageToPanel(tank, tanks.get(i).getPosition().getX(), tanks.get(i).getPosition().getY());
             } else {
-                paintImageToPanel(mirror(tank), tanks[i].getPosition().getX(), tanks[i].getPosition().getY());
+                paintImageToPanel(mirror(tank), tanks.get(i).getPosition().getX(), tanks.get(i).getPosition().getY());
             }
         }
-        Bullet bullets[]=engine.getBullets();
-        for (int i=0;i<bullets.length;i++){
-            paintImageToPanel(bullet,bullets[i].getPosition().getX(),bullets[i].getPosition().getY());
+        ArrayList<Bullet> bullets = engine.getBullets();
+        for (int i=0;i<bullets.size();i++){
+            paintImageToPanel(bullet,bullets.get(i).getPosition().getX(),bullets.get(i).getPosition().getY());
         }
     }
 
 
-    /**
-     * Invoked when a key has been pressed.
-     * See the class description for {@link KeyEvent} for a definition of
-     * a key pressed event.
-     *
-     * @param e the event to be processed
-     */
     @Override
     public void keyPressed(KeyEvent e) {
         engine.keyEventRecognizer(e);
     }
 
-    /**
-     * Invoked when a key has been typed.
-     * See the class description for {@link KeyEvent} for a definition of
-     * a key typed event.
-     *
-     * @param e the event to be processed
-     */
+
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
 
-    /**
-     * Invoked when a key has been released.
-     * See the class description for {@link KeyEvent} for a definition of
-     * a key released event.
-     *
-     * @param e the event to be processed
-     */
     @Override
     public void keyReleased(KeyEvent e) {
 
