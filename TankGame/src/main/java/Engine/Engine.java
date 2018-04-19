@@ -17,20 +17,20 @@ public class Engine {
 
     public void keyEventRecognizer(KeyEvent event) {
         switch (event.getKeyCode()) {
-            case 37:
+            case KeyEvent.VK_LEFT:
                 System.out.println("left pressed");
                 break;
-            case 38:
+            case KeyEvent.VK_UP:
                 System.out.println("up pressed");
                 break;
-            case 39:
+            case KeyEvent.VK_RIGHT:
                 System.out.println("right pressed");
                 break;
-            case 40:
+            case KeyEvent.VK_DOWN:
                 System.out.println("down pressed");
                 break;
             default:
-                System.out.println("Unrecognizer indentifier");
+                System.out.println("Unrecognized indentifier");
         }
     }
 
