@@ -21,8 +21,8 @@ public class Render extends JPanel implements KeyListener {
     private int subsourcepozY1;
     private int subsourcepozX2;
     private int subsourcepozY2;
-    private Tank tanks;
-    private Bullet bullets;
+    private Tank[] tanks;
+    private Bullet[] bullets;
     private Engine engine;
     private BufferedImage fullscreen;
     private Graphics fullgraph;
@@ -32,7 +32,7 @@ public class Render extends JPanel implements KeyListener {
         this.setMinimumSize(new Dimension(800,600));
         this.setMaximumSize(new Dimension(800,600));
         setOpaque(false);
-        engine=new Engine(tanks,bullets,null);//szerintem itt majd kellene egy konstruktor átírás
+        engine=new Engine(tanks,bullets);
     }
 
     public void paintbattleground(boolean map[][]) {
