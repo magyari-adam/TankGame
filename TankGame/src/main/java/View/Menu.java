@@ -53,19 +53,8 @@ public class Menu extends  BaseWindow{
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            BufferedImage backgroundimg = null;
-            BufferedImage image=null;
-            try {
-                backgroundimg = ImageIO.read(getClass().getResource("/assets/bg.png"));
-                image=ImageIO.read(getClass().getResource("/assets/tankfull.png"));
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            gamePanel.paintbackgroundtopanel(backgroundimg,0,0);
-            gamePanel.paintbattleground();
-            gamePanel.paintimagetopanel(image,0,0,image.getWidth(),image.getHeight(),pozx,pozy,pozx+image.getWidth(),pozy+image.getHeight());
-            //gamePanel.refresh();
-
+            gamePanel.start();
+            gamePanel.requestFocus();
         }
     };
 
