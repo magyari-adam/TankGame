@@ -9,6 +9,11 @@ public class Engine {
     private MapModel mapModel;
 
     public Engine(){
+        tanks=new Tank[2];//nope
+        tanks[0]=new Tank(new Vec2D(50,50),10);//nope
+        tanks[1]=new Tank(new Vec2D(300,50),10);//nope
+        bullets=new Bullet[1];
+        bullets[0]=new Bullet(new Vec2D(145,55),new Vec2D());
         this.mapModel = new MapModel(FunctionChooser.first);
     }
 

@@ -1,6 +1,8 @@
 package View;
 
 import Engine.Engine;
+import Engine.Tank;
+import Engine.Bullet;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,64 +18,83 @@ public class Render extends JPanel implements KeyListener {
 
     private BufferedImage background;
     private BufferedImage tank;
+    private BufferedImage bullet;
     private Engine engine;
-    boolean map[][];
+    private boolean map[][];
 
-    public Render(){
+    public Render() {
         this.addKeyListener(this);
-        this.setPreferredSize(new Dimension(800,600));
-        this.setMinimumSize(new Dimension(800,600));
-        this.setMaximumSize(new Dimension(800,600));
+        this.setPreferredSize(new Dimension(800, 600));
+        this.setMinimumSize(new Dimension(800, 600));
+        this.setMaximumSize(new Dimension(800, 600));
 
         try {
             background = ImageIO.read(getClass().getResource("/assets/bg.png"));
-            tank=ImageIO.read(getClass().getResource("/assets/tankfull.png"));
+            tank = ImageIO.read(getClass().getResource("/assets/tankfull.png"));
+            bullet = ImageIO.read(getClass().getResource("/assets/bullet.png"));
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-
-        //setOpaque(false);
-        engine=new Engine();
+        engine = new Engine();
     }
 
-    public void paintbattleground() {
-        map=engine.getMap().getMapRepresentation();
-        Polygon p=new Polygon();
-        for (int x=0;x<800;x++){
-            int y=0;
-            while(y<600&&!map[x][y]){
-                    y++;
+    public void paintBattleground() {
+        map = engine.getMap().getMapRepresentation();
+        Polygon p = new Polygon();
+        for (int x = 0; x < 800; x++) {
+            int y = 0;
+            while (y < 600 && !map[x][y]) {
+                y++;
             }
-            p.addPoint(x,y);
+            p.addPoint(x, y);
         }
-        p.addPoint(getWidth(),getHeight());
-        p.addPoint(0,getHeight());
+        p.addPoint(getWidth(), getHeight());
+        p.addPoint(0, getHeight());
         this.getGraphics().fillPolygon(p);
     }
 
-    public void paintbackgroundtopanel(){
-        this.getGraphics().drawImage(background,0,0,this.getWidth(),this.getHeight(),0,0,background.getWidth(),background.getHeight(),null);
+    public void paintBackgroundToPanel() {
+        this.getGraphics().drawImage(background, 0, 0, this.getWidth(), this.getHeight(), 0, 0, background.getWidth(), background.getHeight(), null);
     }
 
-    public void paintimagetopanel(int pozX1, int pozY1){
-        int height=tank.getHeight();
-        int width=tank.getWidth();
-        this.getGraphics().drawImage(tank,pozX1,pozY1,pozX1+width,pozY1+height,0,0,width,height,null);
+    public void paintImageToPanel(BufferedImage image, int pozX1, int pozY1) {
+        int height = tank.getHeight();
+        int width = tank.getWidth();
+        this.getGraphics().drawImage(image, pozX1, pozY1, pozX1 + width, pozY1 + height, 0, 0, width, height, null);
         //https://stackoverflow.com/questions/24063351/drawing-certain-parts-of-image-offset-from-the-corner
     }
 
-    public BufferedImage rotation(BufferedImage image,double theta){
+    public BufferedImage rotation(BufferedImage imge, double theta) {
         AffineTransform tx = new AffineTransform();
-        tx.rotate(theta, image.getWidth() / 2, image.getHeight() / 2);
+        tx.rotate(theta, imge.getWidth() / 2, imge.getHeight() / 2);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        return op.filter(imge, null);
 
-        AffineTransformOp op = new AffineTransformOp(tx,
-                AffineTransformOp.TYPE_BILINEAR);
-        return op.filter(image, null);
     }
-    public void  refresh(){
-        paintbackgroundtopanel();
-        paintbattleground();
-        paintimagetopanel(50,50);
+
+    public BufferedImage mirror(BufferedImage image) {
+        AffineTransform at = AffineTransform.getScaleInstance(-1, 1);
+        at.translate(-image.getWidth(null), 0);
+        AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        return scaleOp.filter(image, null);
+    }
+
+    public void refresh() {
+        paintBackgroundToPanel();
+        paintBattleground();
+        int tanknumber = engine.getTanks().length;
+        Tank tanks[] = engine.getTanks();
+        for (int i = 0; i < tanknumber; i++) {
+            if (i % 2 == 0) {
+                paintImageToPanel(tank, tanks[i].getPosition().getX(), tanks[i].getPosition().getY());
+            } else {
+                paintImageToPanel(mirror(tank), tanks[i].getPosition().getX(), tanks[i].getPosition().getY());
+            }
+        }
+        Bullet bullets[]=engine.getBullets();
+        for (int i=0;i<bullets.length;i++){
+            paintImageToPanel(bullet,bullets[i].getPosition().getX(),bullets[i].getPosition().getY());
+        }
     }
 
 
@@ -115,6 +136,5 @@ public class Render extends JPanel implements KeyListener {
 
     public void start() {
         refresh();
-        //Timer t=new Timer();
     }
 }
