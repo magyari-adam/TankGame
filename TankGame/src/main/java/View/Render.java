@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class Render extends JPanel implements KeyListener {
@@ -24,8 +26,7 @@ public class Render extends JPanel implements KeyListener {
     private Tank[] tanks;
     private Bullet[] bullets;
     private Engine engine;
-    private BufferedImage fullscreen;
-    private Graphics fullgraph;
+    boolean map[][];
 
     public Render(){
         this.setPreferredSize(new Dimension(800,600));
@@ -33,9 +34,10 @@ public class Render extends JPanel implements KeyListener {
         this.setMaximumSize(new Dimension(800,600));
         setOpaque(false);
         engine=new Engine(tanks,bullets);
+        map=engine.getMap().getMapRepresentation();
     }
 
-    public void paintbattleground(boolean map[][]) {
+    public void paintbattleground() {
         for (int x=0;x<800;x++){
             for (int y=0;y<600;y++){
                 if (map[x][y]){
@@ -58,6 +60,7 @@ public class Render extends JPanel implements KeyListener {
             this.subsourcepozY2=image.getHeight();
             paintComponent(this.getGraphics());
 
+
     }
 
     public void paintimagetopanel(BufferedImage image,int sx1,int sy1,int sx2,int sy2,int pozX1, int pozY1,int pozX2,int pozY2){
@@ -79,11 +82,16 @@ public class Render extends JPanel implements KeyListener {
         super.paintComponent(g);
         g.drawImage(image,destpozX1,destpozY1,destpozX2,destpozY2,subsourcepozX1,subsourcepozY1,subsourcepozX2,subsourcepozY2,null);
     }
-    /*public void refresh(){
-        paintComponent(fullgraph);
-    }*/
-    public void rotation(){
+    public void refresh(){
 
+    }
+    public BufferedImage rotation(BufferedImage image,double theta){
+        AffineTransform tx = new AffineTransform();
+        tx.rotate(theta, image.getWidth() / 2, image.getHeight() / 2);
+
+        AffineTransformOp op = new AffineTransformOp(tx,
+                AffineTransformOp.TYPE_BILINEAR);
+        return op.filter(image, null);
     }
 
 

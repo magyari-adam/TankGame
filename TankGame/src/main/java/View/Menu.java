@@ -62,7 +62,7 @@ public class Menu extends  BaseWindow{
                 e1.printStackTrace();
             }
             gamePanel.paintbackgroundtopanel(backgroundimg,0,0);
-            //gamePanel.paintbattleground();
+            gamePanel.paintbattleground();
             gamePanel.paintimagetopanel(image,0,0,image.getWidth(),image.getHeight(),pozx,pozy,pozx+image.getWidth(),pozy+image.getHeight());
             //gamePanel.refresh();
 
