@@ -8,6 +8,9 @@ public class Engine {
     private Bullet[] bullets;
     private MapModel mapModel;
 
+    public Engine(){
+        this.mapModel = new MapModel(FunctionChooser.first);
+    }
 
     public Engine(Tank[] tank, Bullet[] bullet) {
         this.tanks = tank;
