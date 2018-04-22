@@ -25,18 +25,21 @@ public class Engine {
     }
 
     public void keyEventRecognizer(KeyEvent event) {
+        Vec2D position = this.tanks.get(0).getPosition();
         switch (event.getKeyCode()) {
             case KeyEvent.VK_LEFT:
-                System.out.println("left pressed");
+                if (position.getX() <= 0) { return; }
+                this.tanks.get(0).setPosition(new Vec2D(position.getX() - 10,position.getY()));
                 break;
             case KeyEvent.VK_UP:
-                System.out.println("up pressed");
+                this.tanks.get(0).setTurretAngle(this.tanks.get(0).getTurretAngle() + 1);
                 break;
             case KeyEvent.VK_RIGHT:
-                System.out.println("right pressed");
+                if (position.getX() >= 710) { return; }
+                this.tanks.get(0).setPosition(new Vec2D(position.getX() + 10,position.getY()));
                 break;
             case KeyEvent.VK_DOWN:
-                System.out.println("down pressed");
+                this.tanks.get(0).setTurretAngle(this.tanks.get(0).getTurretAngle() - 1);
                 break;
             case KeyEvent.VK_SPACE:
                 System.out.println("Space pressed");

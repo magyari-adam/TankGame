@@ -106,6 +106,7 @@ public class Render extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         engine.keyEventRecognizer(e);
+        refresh();
     }
 
 
