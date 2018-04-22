@@ -20,6 +20,7 @@ public class Render extends JPanel implements KeyListener {
     private BufferedImage background;
     private BufferedImage tank;
     private BufferedImage bullet;
+    private BufferedImage cannon;
     private Engine engine;
     private boolean map[][];
 
@@ -31,8 +32,9 @@ public class Render extends JPanel implements KeyListener {
 
         try {
             background = ImageIO.read(getClass().getResource("/assets/bg.png"));
-            tank = ImageIO.read(getClass().getResource("/assets/tankfull.png"));
+            tank = ImageIO.read(getClass().getResource("/assets/tank_no_cannon.png"));
             bullet = ImageIO.read(getClass().getResource("/assets/bullet.png"));
+            cannon=ImageIO.read(getClass().getResource("/assets/cannon.png"));
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -65,11 +67,11 @@ public class Render extends JPanel implements KeyListener {
         //https://stackoverflow.com/questions/24063351/drawing-certain-parts-of-image-offset-from-the-corner
     }
 
-    public BufferedImage rotation(BufferedImage imge, double theta) {
+    public BufferedImage rotation(BufferedImage image, double theta) {
         AffineTransform tx = new AffineTransform();
-        tx.rotate(theta, imge.getWidth() / 2, imge.getHeight() / 2);
+        tx.rotate(theta, image.getWidth() / 2, image.getHeight() / 2);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        return op.filter(imge, null);
+        return op.filter(image, null);
 
     }
 
@@ -87,8 +89,11 @@ public class Render extends JPanel implements KeyListener {
         for (int i = 0; i < tanks.size(); i++) {
             if (i % 2 == 0) {
                 paintImageToPanel(tank, tanks.get(i).getPosition().getX(), tanks.get(i).getPosition().getY());
+                paintImageToPanel(cannon,tanks.get(i).getPosition().getX()+55,tanks.get(i).getPosition().getY()+13);
             } else {
                 paintImageToPanel(mirror(tank), tanks.get(i).getPosition().getX(), tanks.get(i).getPosition().getY());
+                paintImageToPanel(mirror(cannon),tanks.get(i).getPosition().getX()-6,tanks.get(i).getPosition().getY()+13);
+
             }
         }
         ArrayList<Bullet> bullets = engine.getBullets();
