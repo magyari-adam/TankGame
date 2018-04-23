@@ -10,12 +10,12 @@ public class Engine {
     private MapModel mapModel;
 
     public Engine() {
+        this.mapModel = new MapModel(FunctionChooser.first);
         tanks = new ArrayList<>();//nope
-        tanks.add(new Tank(new Vec2D(50, 50), 10));//nope
+        tanks.add(new Tank(new Vec2D(50, mapModel.getVerticalPosition(50)-60), 10));//nope
         tanks.add(new Tank(new Vec2D(300, 50), 10));//nope
         bullets = new ArrayList<>();
         bullets.add( new Bullet(new Vec2D(145, 55), new Vec2D()));
-        this.mapModel = new MapModel(FunctionChooser.first);
     }
 
     public Engine(ArrayList<Tank> tank, ArrayList<Bullet> bullet) {
@@ -29,14 +29,14 @@ public class Engine {
         switch (event.getKeyCode()) {
             case KeyEvent.VK_LEFT:
                 if (position.getX() <= 0) { return; }
-                this.tanks.get(0).setPosition(new Vec2D(position.getX() - 10,position.getY()));
+                this.tanks.get(0).setPosition(new Vec2D(position.getX() - 10,mapModel.getVerticalPosition(position.getX() - 10)-60));
                 break;
             case KeyEvent.VK_UP:
                 this.tanks.get(0).setTurretAngle(this.tanks.get(0).getTurretAngle() + 1);
                 break;
             case KeyEvent.VK_RIGHT:
                 if (position.getX() >= 710) { return; }
-                this.tanks.get(0).setPosition(new Vec2D(position.getX() + 10,position.getY()));
+                this.tanks.get(0).setPosition(new Vec2D(position.getX() + 10,mapModel.getVerticalPosition(position.getX() + 10)-60));
                 break;
             case KeyEvent.VK_DOWN:
                 this.tanks.get(0).setTurretAngle(this.tanks.get(0).getTurretAngle() - 1);

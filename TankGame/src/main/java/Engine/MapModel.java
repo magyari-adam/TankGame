@@ -61,6 +61,20 @@ public class MapModel {
         return this.mapRepresentation;
     }
 
+    public int getVerticalPosition(int horizontalPos){
+        if (horizontalPos < 0 || horizontalPos > 800){
+            return 0;
+        }
+        int index = 0;
+        for (int i=0;i<mapRepresentation[horizontalPos].length;i++){
+            index ++;
+            if (mapRepresentation[horizontalPos][i] == true){
+                return index;
+            }
+        }
+        return index;
+    }
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
