@@ -61,18 +61,42 @@ public class Render extends JPanel implements KeyListener {
     }
 
     public void paintImageToPanel(BufferedImage image, int pozX1, int pozY1) {
-        int height = tank.getHeight();
-        int width = tank.getWidth();
+        int height = image.getHeight();
+        int width = image.getWidth();
         this.getGraphics().drawImage(image, pozX1, pozY1, pozX1 + width, pozY1 + height, 0, 0, width, height, null);
         //https://stackoverflow.com/questions/24063351/drawing-certain-parts-of-image-offset-from-the-corner
     }
 
-    public BufferedImage rotation(BufferedImage image, double theta) {
+    public BufferedImage rotation(BufferedImage image,int angle) {
+        BufferedImage before=new BufferedImage(image.getWidth()+10,image.getHeight()+10,image.getType());
         AffineTransform tx = new AffineTransform();
-        tx.rotate(theta, image.getWidth() / 2, image.getHeight() / 2);
+        tx.rotate((angle*Math.PI)/180.0, image.getWidth() / 2, image.getHeight() / 2);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        return op.filter(image, null);
+        op.filter(image, before);
+        return before;
+    }
 
+    public  BufferedImage cannonRotation(BufferedImage image, int angle){
+        BufferedImage before=new BufferedImage(300,200,image.getType());
+        Graphics2D g=before.createGraphics();
+        AffineTransform tx = new AffineTransform();
+        tx.rotate((-1*angle*Math.PI)/180.0, 0,0);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        op.filter(image, before);
+        return before;
+    }
+    public void intDraw(int szam){
+        this.getGraphics().setFont(new Font("TimesRoman", Font.BOLD,20));
+        this.getGraphics().drawString(String.valueOf(szam),350,10);
+    }
+
+    public  BufferedImage mirrorCannonRotation(BufferedImage image, int angle){
+        BufferedImage before=new BufferedImage(300,200,image.getType());
+        AffineTransform tx = new AffineTransform();
+        tx.rotate((angle*Math.PI)/180.0, image.getWidth(),image.getHeight());
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        op.filter(image, before);
+        return before;
     }
 
     public BufferedImage mirror(BufferedImage image) {
@@ -88,11 +112,11 @@ public class Render extends JPanel implements KeyListener {
         ArrayList<Tank> tanks = engine.getTanks();
         for (int i = 0; i < tanks.size(); i++) {
             if (i % 2 == 0) {
-                paintImageToPanel(tank, tanks.get(i).getPosition().getX(), tanks.get(i).getPosition().getY());
-                paintImageToPanel(cannon,tanks.get(i).getPosition().getX()+55,tanks.get(i).getPosition().getY()+13);
+                paintImageToPanel(rotation(tank,tanks.get(i).getAngleToTerrain()), tanks.get(i).getPosition().getX(), tanks.get(i).getPosition().getY());
+                paintImageToPanel(cannonRotation(cannon,20),tanks.get(i).getPosition().getX()+55,tanks.get(i).getPosition().getY()+13);
             } else {
-                paintImageToPanel(mirror(tank), tanks.get(i).getPosition().getX(), tanks.get(i).getPosition().getY());
-                paintImageToPanel(mirror(cannon),tanks.get(i).getPosition().getX()-6,tanks.get(i).getPosition().getY()+13);
+                paintImageToPanel(rotation(mirror(tank),tanks.get(i).getAngleToTerrain()), tanks.get(i).getPosition().getX(), tanks.get(i).getPosition().getY());
+                paintImageToPanel(mirrorCannonRotation(mirror(cannon),20),tanks.get(i).getPosition().getX()-6,tanks.get(i).getPosition().getY()+13);
 
             }
         }
