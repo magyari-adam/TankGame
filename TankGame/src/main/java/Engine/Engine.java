@@ -10,7 +10,7 @@ public class Engine {
     private MapModel mapModel;
 
     public Engine() {
-        this.mapModel = new MapModel(FunctionChooser.first);
+        this.mapModel = new MapModel();
         tanks = new ArrayList<>();//nope
         tanks.add(new Tank(new Vec2D(50, mapModel.getVerticalPosition(50)-60), 10));//nope
         tanks.add(new Tank(new Vec2D(300, 50), 10));//nope
@@ -29,14 +29,14 @@ public class Engine {
         switch (event.getKeyCode()) {
             case KeyEvent.VK_LEFT:
                 if (position.getX() <= 0) { return; }
-                this.tanks.get(0).setPosition(new Vec2D(position.getX() - 10,mapModel.getVerticalPosition(position.getX() - 10)-60));
+                move( position.getX() - 10);
                 break;
             case KeyEvent.VK_UP:
                 this.tanks.get(0).setTurretAngle(this.tanks.get(0).getTurretAngle() + 1);
                 break;
             case KeyEvent.VK_RIGHT:
                 if (position.getX() >= 710) { return; }
-                this.tanks.get(0).setPosition(new Vec2D(position.getX() + 10,mapModel.getVerticalPosition(position.getX() + 10)-60));
+                move( position.getX() + 10);
                 break;
             case KeyEvent.VK_DOWN:
                 this.tanks.get(0).setTurretAngle(this.tanks.get(0).getTurretAngle() - 1);
@@ -49,12 +49,14 @@ public class Engine {
         }
     }
 
-    public void recognizeEventFromOutside(){
 
+    public void move(int newPlace){
+        this.tanks.get(0).setPosition(new Vec2D(newPlace,mapModel.getVerticalPosition(newPlace)-60));
     }
 
-    public void move(Vec2D newPlace){
-
+    public void move(int newPlace, int tankID){
+        if (tankID >= tanks.size() || tankID < 1){ return; }
+        this.tanks.get(tankID).setPosition(new Vec2D(newPlace,mapModel.getVerticalPosition(newPlace)-60));
     }
 
     public void shoot(Vec2D vel){

@@ -105,8 +105,7 @@ public class Render extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        engine.keyEventRecognizer(e);
-        refresh();
+
     }
 
 
@@ -117,7 +116,8 @@ public class Render extends JPanel implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        engine.keyEventRecognizer(e);
+        refresh();
     }
 
     public void start() {
