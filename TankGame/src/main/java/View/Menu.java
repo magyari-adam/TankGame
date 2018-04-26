@@ -1,20 +1,16 @@
 package View;
 
 
-import javax.imageio.ImageIO;
+import Engine.Engine;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Menu extends  BaseWindow{
 
     private Container gc = getContentPane();
     private Render gamePanel;
-    private int pozx=50;
-    private int pozy=50;
-    private boolean palya[][];
 
 
     public Menu(){
@@ -42,7 +38,7 @@ public class Menu extends  BaseWindow{
         setJMenuBar(menu);
         menu.setVisible(true);
 
-        gamePanel = new Render();
+        gamePanel = new Render(new Engine());
 
 
         gc.setLayout(new BorderLayout());
@@ -66,7 +62,7 @@ public class Menu extends  BaseWindow{
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            gamePanel.start();
+            gamePanel.refresh();
             gamePanel.requestFocus();
         }
     };
