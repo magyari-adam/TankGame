@@ -51,7 +51,13 @@ public class Tank {
     }
 
     public void setTurretAngle(int turretAngle) {
-        this.turretAngle = turretAngle;
+        if (turretAngle > 40){
+            this.turretAngle = 40;
+        }else if(turretAngle < -15){
+            this.turretAngle = -15;
+        }else{
+            this.turretAngle = turretAngle;
+        }
     }
 
     public int getAngleToTerrain() {
