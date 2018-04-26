@@ -45,7 +45,7 @@ public class Engine {
                 this.tanks.get(0).setTurretAngle(this.tanks.get(0).getTurretAngle() - 1);
                 break;
             case KeyEvent.VK_SPACE:
-                shoot(tanks.get(0).getTurretAngle(),0);
+                shoot(1,0);
                 break;
             default:
                 System.out.println("Unrecognized indentifier");
@@ -67,7 +67,7 @@ public class Engine {
         int turretAngle = tank.getTurretAngle();
         double x = Math.cos(turretAngle) * VEC_LENGTH;
         double y = Math.sin(turretAngle) * VEC_LENGTH;
-        bullets.add(new Bullet(new Vec2D(tank.getPosition().getX(),tank.getPosition().getY()),new Vec2D((int)Math.round(x),(int)Math.round(y))));
+        bullets.add(new Bullet(new Vec2D(tank.getPosition().getX() * facing,tank.getPosition().getY()),new Vec2D((int)Math.round(x) * facing,(int)Math.round(y))));
     }
 
 
