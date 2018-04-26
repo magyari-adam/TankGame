@@ -24,11 +24,13 @@ public class Menu extends  BaseWindow{
         JMenu settingsMenu = new JMenu("Settings");
         JMenu quitMenu = new JMenu("Quit");
 
-        JMenuItem play = new JMenuItem(start);
+        JMenuItem clientItem = new JMenuItem(client);
+        JMenuItem hostItem = new JMenuItem(host);
         JMenuItem kilepes = new JMenuItem(quit);
         JMenuItem settings = new JMenuItem("Settings");
 
-        playMenu.add(play);
+        playMenu.add(clientItem);
+        playMenu.add(hostItem);
         menu.add(playMenu);
 
         settingsMenu.add(settings);
@@ -48,7 +50,18 @@ public class Menu extends  BaseWindow{
     }
 
 
-    private AbstractAction start = new AbstractAction("Play")
+    private AbstractAction client = new AbstractAction("Connect")
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String ipAddress = JOptionPane.showInputDialog(gamePanel,
+                    "Add a new IP address to connect", null);
+            // do smth with ip
+        }
+    };
+
+
+    private AbstractAction host = new AbstractAction("Host game")
     {
         @Override
         public void actionPerformed(ActionEvent e)
