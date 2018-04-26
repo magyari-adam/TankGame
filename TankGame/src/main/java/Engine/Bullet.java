@@ -1,8 +1,9 @@
 package Engine;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Bullet {
+public class Bullet implements Serializable{
 
     private Vec2D position;
     private Vec2D velocity;

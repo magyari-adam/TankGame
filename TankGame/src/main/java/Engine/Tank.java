@@ -1,8 +1,11 @@
 package Engine;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Tank {
+public class Tank implements Serializable{
+
+    private static final long serialVersionUID = 70L;
 
     private Vec2D position;
     private int health;

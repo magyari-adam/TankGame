@@ -75,4 +75,24 @@ public class Engine {
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
+
+    public void setTanks(ArrayList<Tank> tanks) {
+        this.tanks = tanks;
+    }
+
+    public void setBullets(ArrayList<Bullet> bullets) {
+        this.bullets = bullets;
+    }
+
+    public void setMapModel(MapModel mapModel) {
+        this.mapModel = mapModel;
+    }
+
+    public int getBulletsHashCode(){
+        return this.bullets.hashCode();
+    }
+
+    public int getTanksHashCode(){
+        return this.tanks.hashCode();
+    }
 }

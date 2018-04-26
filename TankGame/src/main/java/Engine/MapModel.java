@@ -1,7 +1,11 @@
 package Engine;
 
-public class MapModel {
+import java.io.Serializable;
+import java.util.Arrays;
 
+public class MapModel implements Serializable{
+
+    private static final long serialVersionUID = 50L;
     private boolean[][] mapRepresentation = new boolean[800][600];
 
     public MapModel(){
@@ -85,5 +89,18 @@ public class MapModel {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MapModel)) return false;
+        MapModel mapModel = (MapModel) o;
+        return Arrays.equals(mapRepresentation, mapModel.mapRepresentation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(mapRepresentation);
     }
 }

@@ -1,8 +1,11 @@
 package Engine;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Vec2D {
+public class Vec2D implements Serializable{
+
+    private static final long serialVersionUID = 60L;
 
     private int x;
     private int y;
