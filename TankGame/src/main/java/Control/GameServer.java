@@ -1,6 +1,9 @@
 package Control;
 
+import Engine.Bullet;
 import Engine.Engine;
+import Engine.MapModel;
+import Engine.Tank;
 import View.Render;
 
 import java.rmi.RemoteException;
@@ -29,7 +32,7 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace {
     @Override
     public void shoot(int id) {
         this.ready.set(id,true);
-        engine.shoot(id);
+        engine.shoot(id%2==0?1:-1,id);
     }
 
     @Override
@@ -45,6 +48,21 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace {
     @Override
     public int getBulletsHashCode() {
         return engine.getBulletsHashCode();
+    }
+
+    @Override
+    public MapModel getMap() {
+        return this.engine.getMap();
+    }
+
+    @Override
+    public ArrayList<Tank> getTanks() {
+        return this.engine.getTanks();
+    }
+
+    @Override
+    public ArrayList<Bullet> getBullets() {
+        return this.engine.getBullets();
     }
 
     @Override
