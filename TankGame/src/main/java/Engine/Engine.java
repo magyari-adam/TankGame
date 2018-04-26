@@ -16,8 +16,8 @@ public class Engine {
     public Engine() {
         this.mapModel = new MapModel();
         tanks = new ArrayList<>();//nope
-        tanks.add(new Tank(new Vec2D(50, mapModel.getVerticalPosition(50)-60), 10));//nope
-        tanks.add(new Tank(new Vec2D(300, mapModel.getVerticalPosition(300)-60), 10));//nope
+        tanks.add(new Tank(new Vec2D(50, mapModel.getVerticalPosition(50)-30), 10));//nope
+        tanks.add(new Tank(new Vec2D(300, mapModel.getVerticalPosition(300)-30), 10));//nope
         bullets = new ArrayList<>();
         bullets.add( new Bullet(new Vec2D(145, 55), new Vec2D()));
     }
