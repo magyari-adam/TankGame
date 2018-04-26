@@ -9,6 +9,9 @@ public class Engine {
     private ArrayList<Bullet> bullets;
     private MapModel mapModel;
 
+
+    private final transient int VEC_LENGTH = 2;
+
     public Engine() {
         this.mapModel = new MapModel();
         tanks = new ArrayList<>();//nope
@@ -42,7 +45,7 @@ public class Engine {
                 this.tanks.get(0).setTurretAngle(this.tanks.get(0).getTurretAngle() - 1);
                 break;
             case KeyEvent.VK_SPACE:
-                System.out.println("Space pressed");
+                shoot(tanks.get(0).getTurretAngle(),0);
                 break;
             default:
                 System.out.println("Unrecognized indentifier");
@@ -59,8 +62,12 @@ public class Engine {
         this.tanks.get(tankID).setPosition(new Vec2D(newPlace,mapModel.getVerticalPosition(newPlace)-60));
     }
 
-    public void shoot(Vec2D vel){
-
+    public void shoot(int facing, int tankID){
+        Tank tank = tanks.get(tankID);
+        int turretAngle = tank.getTurretAngle();
+        double x = Math.cos(turretAngle) * VEC_LENGTH;
+        double y = Math.sin(turretAngle) * VEC_LENGTH;
+        bullets.add(new Bullet(new Vec2D(tank.getPosition().getX(),tank.getPosition().getY()),new Vec2D((int)Math.round(x),(int)Math.round(y))));
     }
 
 
