@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public interface GameServerIFace extends Remote{
     void move(int id, int posX) throws RemoteException;
+    void moveTurret(int id, int angleOffset) throws RemoteException;
     void shoot(int id) throws RemoteException;
     int getMapHashCode() throws RemoteException;
     int getTanksHashCode() throws RemoteException;
