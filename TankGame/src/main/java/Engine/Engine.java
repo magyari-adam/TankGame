@@ -53,13 +53,19 @@ public class Engine {
         }
     }
 
+    public void changeTurretAngleByOne(int deg, int tankID){
+        if (tankID >= tanks.size() || tankID < 0){ return; }
+        this.tanks.get(tankID).setTurretAngle(tanks.get(tankID).getTurretAngle() + deg);
+    }
 
     public void move(int newPlace){
+        if (newPlace <= 0 || newPlace >= 710) { return; }
         this.tanks.get(0).setPosition(new Vec2D(newPlace,mapModel.getVerticalPosition(newPlace)-30));
     }
 
     public void move(int newPlace, int tankID){
-        if (tankID >= tanks.size() || tankID < 1){ return; }
+        if (tankID >= tanks.size() || tankID < 0){ return; }
+        if (newPlace <= 0 || newPlace >= 710) { return; }
         this.tanks.get(tankID).setPosition(new Vec2D(newPlace,mapModel.getVerticalPosition(newPlace)-30));
     }
 
@@ -91,11 +97,8 @@ public class Engine {
 
     }
 
-    public boolean detectCollision(Vec2D tank, Vec2D bullet){
-        if (COLLISION_RADIUS >= getDistanceBetween(tank,bullet)){
-            return true;
-        }
-        return false;
+    private boolean detectCollision(Vec2D tank, Vec2D bullet){
+        return (COLLISION_RADIUS >= getDistanceBetween(tank,bullet));
     }
 
     private int getDistanceBetween(Vec2D lhs,Vec2D rhs){
