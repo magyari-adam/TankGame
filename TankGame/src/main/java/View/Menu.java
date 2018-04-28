@@ -81,6 +81,9 @@ public class Menu extends  BaseWindow{
         @Override
         public void actionPerformed(ActionEvent e)
         {
+            if(gameServer!=null){
+                gameServer.clean();
+            }
             gamePanel.requestFocus();
             try {
                 gameServer = new GameServer(engine,gamePanel);

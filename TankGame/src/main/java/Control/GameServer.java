@@ -37,11 +37,15 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
         } catch (AlreadyBoundException e) {
             e.printStackTrace();
         }
+
+        Thread r = new Thread(new ServerRefresh(this));
+        r.start();
     }
 
     public void clean(){
         try {
             this.reg.unbind("senshado");
+            UnicastRemoteObject.unexportObject(reg,true);
         } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
         }
@@ -114,6 +118,10 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
         return false;
     }
 
+    public synchronized void refresh(){
+        this.render.refresh();
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -125,7 +133,7 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public synchronized void keyReleased(KeyEvent e) {
         Vec2D position = this.engine.getTanks().get(0).getPosition();
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
@@ -147,6 +155,5 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
                 this.engine.tick();
                 System.out.println("Unrecognized identifier");
         }
-        this.render.refresh();
     }
 }

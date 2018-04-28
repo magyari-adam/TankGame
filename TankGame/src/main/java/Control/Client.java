@@ -22,9 +22,12 @@ public class Client implements KeyListener {
 
         this.server = (GameServerIFace) LocateRegistry.getRegistry(ipAddress,10273).lookup("senshado");
         this.id = this.server.getID();
+
+        Thread refresh = new Thread(new ClientRefresh(this));
+        refresh.start();
     }
 
-    public void refreshFromServer(){
+    public synchronized void refreshFromServer(){
         try {
             this.engine.setTanks(this.server.getTanks());
             this.engine.setBullets(this.server.getBullets());
@@ -46,7 +49,7 @@ public class Client implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public synchronized void keyReleased(KeyEvent e) {
         Vec2D position = this.engine.getTanks().get(this.id).getPosition();
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
@@ -87,7 +90,5 @@ public class Client implements KeyListener {
             default:
                 System.out.println("Unrecognized identifier");
         }
-
-        refreshFromServer();
     }
 }
