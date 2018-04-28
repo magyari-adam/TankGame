@@ -2,10 +2,10 @@ package Control;
 
 import static java.lang.Thread.sleep;
 
-public class TickRefresh implements Runnable {
+public class DoTicks implements Runnable {
     private GameServer gs;
 
-    public TickRefresh(GameServer gs) {
+    public DoTicks(GameServer gs) {
         this.gs = gs;
     }
 
@@ -19,5 +19,6 @@ public class TickRefresh implements Runnable {
                 e.printStackTrace();
             }
         }
+        this.gs.unReadyAll();
     }
 }

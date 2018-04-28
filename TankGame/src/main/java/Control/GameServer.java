@@ -55,12 +55,16 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
 
     @Override
     public void move(int id, int posX) {
-        this.engine.move(posX,id);
+        if(!ready.get(id)){
+            this.engine.move(posX,id);
+        }
     }
 
     @Override
     public void moveTurret(int id, int angleOffset) {
-        this.engine.changeTurretAngleByOne(angleOffset,id);
+        if (!ready.get(id)) {
+            this.engine.changeTurretAngleByOne(angleOffset, id);
+        }
     }
 
     @Override
@@ -69,13 +73,19 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
         this.engine.shoot(id%2==0?1:-1,id);
 
         if(isReady()){
-            Thread tick = new Thread(new TickRefresh(this));
+            Thread tick = new Thread(new DoTicks(this));
             tick.start();
         }
     }
 
     public synchronized void doTick(){
         this.engine.tick();
+    }
+
+    public synchronized void unReadyAll(){
+        for (int i = 0; i<ready.size();i++){
+            ready.set(i,false);
+        }
     }
 
     @Override
