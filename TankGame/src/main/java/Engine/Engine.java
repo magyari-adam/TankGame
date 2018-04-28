@@ -19,7 +19,7 @@ public class Engine {
         tanks.add(new Tank(new Vec2D(50, mapModel.getVerticalPosition(50)-30), 10));//nope
         tanks.add(new Tank(new Vec2D(300, mapModel.getVerticalPosition(300)-30), 10));//nope
         bullets = new ArrayList<>();
-        bullets.add( new Bullet(new Vec2D(145, 55), new Vec2D()));
+        //bullets.add( new Bullet(new Vec2D(145, 55), new Vec2D()));
     }
 
     public Engine(ArrayList<Tank> tank, ArrayList<Bullet> bullet) {
@@ -72,25 +72,49 @@ public class Engine {
     public void shoot(int facing, int tankID){
         Tank tank = tanks.get(tankID);
         int turretAngle = tank.getTurretAngle();
-        double x = Math.cos(turretAngle) * VEC_LENGTH;
-        double y = Math.sin(turretAngle) * VEC_LENGTH;
+        double x = Math.abs(Math.cos(turretAngle) * VEC_LENGTH);
+        double y = Math.abs(Math.sin(turretAngle) * VEC_LENGTH);
         bullets.add(new Bullet(new Vec2D(tank.getPosition().getX() * facing,tank.getPosition().getY()),new Vec2D((int)Math.round(x) * facing,(int)Math.round(y))));
     }
 
+    private Vec2D utils(int angle){
+        double x = Math.abs(Math.cos(angle) * VEC_LENGTH);
+        double y = Math.abs(Math.sin(angle) * VEC_LENGTH);
+        if (angle < 0){
+            return new Vec2D((int)Math.round(x) ,(int)Math.round(y) );
+        }else{
+            return new Vec2D((int)Math.round(x) * 15,(int)Math.round(y) * -15);
+        }
+    }
 
     public void tick(){
         for (Bullet x : bullets){
+            if (x == null){
+                return;
+            }
             Vec2D newVec = x.getPosition();
+            if (newVec.getX() > 800 || newVec.getY() > 600 || newVec.getX() < 0 || newVec.getY() < 0){
+                // bullet kiment a tablabol
+                x = null;
+                continue;
+            }
+            int turretAngle = tanks.get(0).getTurretAngle();
+            System.out.println("oldVal: "+x.getVelocity().toString() + " newval: "+newVec.toString());
+            newVec.add(utils(turretAngle));
             newVec.add(x.getVelocity());
             x.setPosition(new Vec2D(newVec));
             x.setVelocity(new Vec2D(0,1));
             for (Tank tank : tanks){
-                if (detectCollision(tank.getPosition(),x.getPosition())){
+                if ((!tank.equals(tanks.get(0))) && detectCollision(tank.getPosition(),x.getPosition())){
                     // talalat erte a tankot
+                    System.out.println("tank health -1");
                     tank.setHealth(tank.getHealth() - 1);
                     if (tank.getHealth() == 0){
                         //tank felrobbant
+                        System.out.println("tank has blown up");
                     }
+                    x = null;
+                    continue;
                 }
             }
         }
