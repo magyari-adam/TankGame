@@ -44,6 +44,11 @@ public class Render extends JPanel implements KeyListener {
         this.engine = engine;
     }
 
+    public void changeKeyListener(KeyListener k){
+        this.removeKeyListener(this.getKeyListeners()[0]);
+        this.addKeyListener(k);
+    }
+
     private void paintBattleground() {
         boolean[][] map = engine.getMap().getMapRepresentation();
         Polygon p = new Polygon();

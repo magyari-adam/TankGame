@@ -1,16 +1,23 @@
 package View;
 
 
+import Control.Client;
+import Control.GameServer;
 import Engine.Engine;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 public class Menu extends  BaseWindow{
 
     private Container gc = getContentPane();
-    private Render gamePanel;
+    private final Render gamePanel;
+    private final Engine engine;
+    private GameServer gameServer;
+    private Client c;
 
 
     public Menu(){
@@ -38,7 +45,8 @@ public class Menu extends  BaseWindow{
         setJMenuBar(menu);
         menu.setVisible(true);
 
-        gamePanel = new Render(new Engine());
+        this.engine = new Engine();
+        this.gamePanel = new Render(this.engine);
 
 
         gc.setLayout(new BorderLayout());
@@ -52,7 +60,18 @@ public class Menu extends  BaseWindow{
         public void actionPerformed(ActionEvent e) {
             String ipAddress = JOptionPane.showInputDialog(gamePanel,
                     "Add a new IP address to connect", null);
-            // do smth with ip
+
+            gamePanel.requestFocus();
+            try {
+                c = new Client(ipAddress,engine,gamePanel);
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            } catch (NotBoundException e1) {
+                e1.printStackTrace();
+            }
+
+            gamePanel.changeKeyListener(c);
+            gamePanel.refresh();
         }
     };
 
@@ -62,8 +81,15 @@ public class Menu extends  BaseWindow{
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            gamePanel.refresh();
             gamePanel.requestFocus();
+            try {
+                gameServer = new GameServer(engine,gamePanel);
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
+
+            gamePanel.changeKeyListener(gameServer);
+            gamePanel.refresh();
         }
     };
 

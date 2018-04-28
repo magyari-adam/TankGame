@@ -16,12 +16,23 @@ public class Client implements KeyListener {
     private final GameServerIFace server;
     private final int id;
 
-    public Client(String ipAddress, int port, Engine engine, Render render) throws RemoteException, NotBoundException {
+    public Client(String ipAddress, Engine engine, Render render) throws RemoteException, NotBoundException {
         this.engine = engine;
         this.render = render;
 
-        this.server = (GameServerIFace) LocateRegistry.getRegistry(ipAddress,port).lookup("senshado");
+        this.server = (GameServerIFace) LocateRegistry.getRegistry(ipAddress,10273).lookup("senshado");
         this.id = this.server.getID();
+    }
+
+    public void refreshFromServer(){
+        try {
+            this.engine.setTanks(this.server.getTanks());
+            this.engine.setBullets(this.server.getBullets());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        this.render.refresh();
     }
 
     @Override
@@ -39,7 +50,6 @@ public class Client implements KeyListener {
         Vec2D position = this.engine.getTanks().get(this.id).getPosition();
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
-                //if (position.getX() <= 0) { return; }
                 try {
                     this.server.move(this.id, position.getX() - 10);
                 } catch (RemoteException e1) {
@@ -54,7 +64,6 @@ public class Client implements KeyListener {
                 }
                 break;
             case KeyEvent.VK_RIGHT:
-                //if (position.getX() >= 710) { return; }
                 try {
                     this.server.move( this.id, position.getX() + 10);
                 } catch (RemoteException e1) {
@@ -76,7 +85,9 @@ public class Client implements KeyListener {
                 }
                 break;
             default:
-                System.out.println("Unrecognized indentifier");
+                System.out.println("Unrecognized identifier");
         }
+
+        refreshFromServer();
     }
 }

@@ -4,8 +4,11 @@ import Engine.Bullet;
 import Engine.Engine;
 import Engine.MapModel;
 import Engine.Tank;
+import Engine.Vec2D;
 import View.Render;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -14,7 +17,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-public class GameServer extends UnicastRemoteObject implements GameServerIFace {
+public class GameServer extends UnicastRemoteObject implements GameServerIFace, KeyListener {
     private final Registry reg;
     private int id;
     private final Engine engine;
@@ -39,9 +42,7 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace {
     public void clean(){
         try {
             this.reg.unbind("senshado");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
+        } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
         }
     }
@@ -53,7 +54,7 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace {
 
     @Override
     public void moveTurret(int id, int angleOffset) {
-        //this.engine;
+        this.engine.changeTurretAngleByOne(angleOffset,id);
     }
 
     @Override
@@ -111,5 +112,41 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace {
     @Override
     public boolean isEnd() {
         return false;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        Vec2D position = this.engine.getTanks().get(0).getPosition();
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                this.move(0, position.getX() - 10);
+                break;
+            case KeyEvent.VK_UP:
+                this.moveTurret(0, 1);
+                break;
+            case KeyEvent.VK_RIGHT:
+                this.move( 0, position.getX() + 10);
+                break;
+            case KeyEvent.VK_DOWN:
+                this.moveTurret(0, -1);
+                break;
+            case KeyEvent.VK_SPACE:
+                this.shoot(0);
+                break;
+            default:
+                this.engine.tick();
+                System.out.println("Unrecognized identifier");
+        }
+        this.render.refresh();
     }
 }
