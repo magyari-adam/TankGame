@@ -17,6 +17,8 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+import static java.lang.Thread.sleep;
+
 public class GameServer extends UnicastRemoteObject implements GameServerIFace, KeyListener {
     private final Registry reg;
     private int id;
@@ -65,6 +67,15 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
     public void shoot(int id) {
         this.ready.set(id,true);
         this.engine.shoot(id%2==0?1:-1,id);
+
+        if(isReady()){
+            Thread tick = new Thread(new TickRefresh(this));
+            tick.start();
+        }
+    }
+
+    public synchronized void doTick(){
+        this.engine.tick();
     }
 
     @Override
