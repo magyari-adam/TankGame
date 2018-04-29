@@ -22,6 +22,7 @@ public class Client implements KeyListener {
 
         this.server = (GameServerIFace) LocateRegistry.getRegistry(ipAddress,10273).lookup("senshado");
         this.id = this.server.getID();
+        this.engine.setMapModel(this.server.getMap());
 
         Thread refresh = new Thread(new ClientRefresh(this));
         refresh.start();
