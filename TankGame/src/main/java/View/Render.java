@@ -127,7 +127,7 @@ public class Render extends JPanel implements KeyListener {
             } else {
                 paintImageToPanel(rotation(mirror(tank),tanks.get(i).getAngleToTerrain()), x-tank.getWidth()/2, y-tank.getHeight()/2);
                 if (angle>0){
-                    paintImageToPanel(mirrorCannonRotation(mirror(upcannon),angle), x - 88,y-216);
+                    paintImageToPanel(mirrorCannonRotation(mirror(upcannon),angle), x - 88,y-46);
                 }else{
                     paintImageToPanel(mirrorCannonRotation(mirror(cannon),angle),x-48,y-16);
                 }
