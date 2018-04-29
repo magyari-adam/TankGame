@@ -12,7 +12,7 @@ public class Engine {
 
 
     private final transient int VEC_LENGTH = 5;
-    private final transient int COLLISION_RADIUS = 20;
+    private final transient int COLLISION_RADIUS = 40;
 
     public Engine() {
         this.mapModel = new MapModel();
@@ -94,7 +94,6 @@ public class Engine {
             newVec.add(new Vec2D(0,1));
             actualBullet.setPosition(newVec);
             for (Tank tank : tanks){
-                System.out.println(tank.equals(tanks.get(actualBullet.getTankID()))); //wtf
                 if (detectCollision(tank.getPosition(),actualBullet.getPosition())){
                     if(!tank.equals(tanks.get(actualBullet.getTankID()))){
                         System.out.println("tank health -1");
@@ -118,7 +117,7 @@ public class Engine {
     private int getDistanceBetween(Vec2D lhs,Vec2D rhs){
         int horizontalDistance = Math.abs(lhs.getX() - rhs.getX());
         int verticalDistance = Math.abs(lhs.getY() - rhs.getY());
-        return (int)Math.sqrt(horizontalDistance + verticalDistance);
+        return (int)Math.sqrt(horizontalDistance * horizontalDistance + verticalDistance * verticalDistance);
     }
 
     public MapModel getMap() {
