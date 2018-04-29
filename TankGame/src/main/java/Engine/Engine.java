@@ -77,7 +77,7 @@ public class Engine {
         double x = Math.cos(Math.toRadians(turretAngle)) * VEC_LENGTH;
         double y = Math.sin(Math.toRadians(turretAngle)) * VEC_LENGTH * -1;
         System.out.println("x: "+x+" y: "+y);
-        bullets.add(new Bullet(new Vec2D(tank.getPosition().getX(),tank.getPosition().getY()),new Vec2D((int)Math.round(x) * facing,(int)Math.round(y))));
+        bullets.add(new Bullet(new Vec2D(tank.getPosition().getX(),tank.getPosition().getY()),new Vec2D((int)Math.round(x) * facing,(int)Math.round(y)),tankID));
     }
 
     public void tick(){
@@ -91,18 +91,20 @@ public class Engine {
                 continue;
             }
             newVec.add(actualBullet.getVelocity());
-            newVec.add(new Vec2D(0,1)); //gravity
+            newVec.add(new Vec2D(0,1));
             actualBullet.setPosition(newVec);
             for (Tank tank : tanks){
-                if ((!tank.equals(tanks.get(0))) && detectCollision(tank.getPosition(),actualBullet.getPosition())){
-                    // talalat erte a tankot
-                    System.out.println("tank health -1");
-                    tank.setHealth(tank.getHealth() - 1);
-                    if (tank.getHealth() == 0){
-                        //tank felrobbant
-                        System.out.println("tank has blown up");
+                System.out.println(tank.equals(tanks.get(actualBullet.getTankID()))); //wtf
+                if (detectCollision(tank.getPosition(),actualBullet.getPosition())){
+                    if(!tank.equals(tanks.get(actualBullet.getTankID()))){
+                        System.out.println("tank health -1");
+                        tank.setHealth(tank.getHealth() - 1);
+                        if (tank.getHealth() == 0){
+                            //tank felrobbant
+                            System.out.println("tank has blown up");
+                        }
+                        iterator.remove();
                     }
-                    //iterator.remove(); ez majd kelleni fog csak a teszt miatt ki van kommentelve
                 }
             }
         }
