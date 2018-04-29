@@ -54,10 +54,10 @@ public class Tank implements Serializable{
     }
 
     public void setTurretAngle(int turretAngle) {
-        if (turretAngle > 40){
+        if (turretAngle > 50){
             this.turretAngle = 40;
-        }else if(turretAngle < -15){
-            this.turretAngle = -15;
+        }else if(turretAngle < -20){
+            this.turretAngle = -20;
         }else{
             this.turretAngle = turretAngle;
         }

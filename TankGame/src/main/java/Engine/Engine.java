@@ -2,6 +2,7 @@ package Engine;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Engine {
 
@@ -10,7 +11,7 @@ public class Engine {
     private MapModel mapModel;
 
 
-    private final transient int VEC_LENGTH = 2;
+    private final transient int VEC_LENGTH = 5;
     private final transient int COLLISION_RADIUS = 20;
 
     public Engine() {
@@ -72,40 +73,28 @@ public class Engine {
     public void shoot(int facing, int tankID){
         Tank tank = tanks.get(tankID);
         int turretAngle = tank.getTurretAngle();
-        double x = Math.abs(Math.cos(turretAngle) * VEC_LENGTH);
-        double y = Math.abs(Math.sin(turretAngle) * VEC_LENGTH);
-        bullets.add(new Bullet(new Vec2D(tank.getPosition().getX() * facing,tank.getPosition().getY()),new Vec2D((int)Math.round(x) * facing,(int)Math.round(y))));
-    }
-
-    private Vec2D utils(int angle){
-        double x = Math.abs(Math.cos(angle) * VEC_LENGTH);
-        double y = Math.abs(Math.sin(angle) * VEC_LENGTH);
-        if (angle < 0){
-            return new Vec2D((int)Math.round(x) ,(int)Math.round(y) );
-        }else{
-            return new Vec2D((int)Math.round(x) * 15,(int)Math.round(y) * -15);
-        }
+        System.out.println("angle: "+turretAngle);
+        double x = Math.cos(Math.toRadians(turretAngle)) * VEC_LENGTH;
+        double y = Math.sin(Math.toRadians(turretAngle)) * VEC_LENGTH * -1;
+        System.out.println("x: "+x+" y: "+y);
+        bullets.add(new Bullet(new Vec2D(tank.getPosition().getX(),tank.getPosition().getY()),new Vec2D((int)Math.round(x) * facing,(int)Math.round(y))));
     }
 
     public void tick(){
-        for (Bullet x : bullets){
-            if (x == null){
-                return;
-            }
-            Vec2D newVec = x.getPosition();
+        for (Iterator<Bullet> iterator = bullets.iterator();iterator.hasNext();){
+            Bullet actualBullet = iterator.next();
+
+            Vec2D newVec = actualBullet.getPosition();
             if (newVec.getX() > 800 || newVec.getY() > 600 || newVec.getX() < 0 || newVec.getY() < 0){
                 // bullet kiment a tablabol
-                x = null;
+                iterator.remove();
                 continue;
             }
-            int turretAngle = tanks.get(0).getTurretAngle();
-            System.out.println("oldVal: "+x.getVelocity().toString() + " newval: "+newVec.toString());
-            newVec.add(utils(turretAngle));
-            newVec.add(x.getVelocity());
-            x.setPosition(new Vec2D(newVec));
-            x.setVelocity(new Vec2D(0,1));
+            newVec.add(actualBullet.getVelocity());
+            newVec.add(new Vec2D(0,1)); //gravity
+            actualBullet.setPosition(newVec);
             for (Tank tank : tanks){
-                if ((!tank.equals(tanks.get(0))) && detectCollision(tank.getPosition(),x.getPosition())){
+                if ((!tank.equals(tanks.get(0))) && detectCollision(tank.getPosition(),actualBullet.getPosition())){
                     // talalat erte a tankot
                     System.out.println("tank health -1");
                     tank.setHealth(tank.getHealth() - 1);
@@ -113,8 +102,7 @@ public class Engine {
                         //tank felrobbant
                         System.out.println("tank has blown up");
                     }
-                    x = null;
-                    continue;
+                    //iterator.remove(); ez majd kelleni fog csak a teszt miatt ki van kommentelve
                 }
             }
         }
