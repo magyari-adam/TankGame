@@ -34,17 +34,17 @@ public class Render extends JPanel implements KeyListener {
             background = ImageIO.read(getClass().getResource("/assets/bg.png"));
             tank = ImageIO.read(getClass().getResource("/assets/tank_no_cannon.png"));
             bullet = ImageIO.read(getClass().getResource("/assets/bullet.png"));
-            cannon=ImageIO.read(getClass().getResource("/assets/cannon.png"));
-            upcannon=new BufferedImage(cannon.getWidth()+40,cannon.getHeight()+30,cannon.getType());
-            Graphics2D g=upcannon.createGraphics();
-            g.drawImage(cannon,0,cannon.getHeight()+20,null);
+            cannon = ImageIO.read(getClass().getResource("/assets/cannon.png"));
+            upcannon = new BufferedImage(cannon.getWidth() + 40, cannon.getHeight() + 30, cannon.getType());
+            Graphics2D g = upcannon.createGraphics();
+            g.drawImage(cannon, 0, cannon.getHeight() + 20, null);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
         this.engine = engine;
     }
 
-    public void changeKeyListener(KeyListener k){
+    public void changeKeyListener(KeyListener k) {
         this.removeKeyListener(this.getKeyListeners()[0]);
         this.addKeyListener(k);
     }
@@ -76,7 +76,7 @@ public class Render extends JPanel implements KeyListener {
     }
 
     private BufferedImage rotation(BufferedImage image, int angle) {
-        BufferedImage after=new BufferedImage(image.getWidth()+10,image.getHeight()+10,image.getType());
+        BufferedImage after = new BufferedImage(image.getWidth() + 10, image.getHeight() + 10, image.getType());
         AffineTransform tx = new AffineTransform();
         tx.rotate(Math.toRadians(angle), image.getWidth() / 2, image.getHeight() / 2);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
@@ -84,15 +84,15 @@ public class Render extends JPanel implements KeyListener {
         return after;
     }
 
-    private BufferedImage cannonRotation(BufferedImage image, int angle){
-        AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(-1*angle), 0,0);
+    private BufferedImage cannonRotation(BufferedImage image, int angle) {
+        AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(-1 * angle), 0, 0);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         return op.filter(image, null);
 
     }
 
-    private BufferedImage mirrorCannonRotation(BufferedImage image, int angle){
-        AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(angle), image.getWidth(),image.getHeight());
+    private BufferedImage mirrorCannonRotation(BufferedImage image, int angle) {
+        AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(angle), image.getWidth(), image.getHeight());
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         return op.filter(image, null);
     }
@@ -108,28 +108,28 @@ public class Render extends JPanel implements KeyListener {
         paintBackgroundToPanel();
         paintBattleground();
         ArrayList<Tank> tanks = engine.getTanks();
-        int x,y,angle;
+        int x, y, angle;
         BufferedImage forgatott;
         for (int i = 0; i < tanks.size(); i++) {
-            x=tanks.get(i).getPosition().getX();
-            y=tanks.get(i).getPosition().getY();
-            angle=tanks.get(i).getTurretAngle();
-            forgatott=cannonRotation(upcannon,angle);
+            x = tanks.get(i).getPosition().getX();
+            y = tanks.get(i).getPosition().getY();
+            angle = tanks.get(i).getTurretAngle();
+            forgatott = cannonRotation(upcannon, angle);
             if (i % 2 == 0) {
-                paintImageToPanel(rotation(tank,tanks.get(i).getAngleToTerrain()), x-tank.getWidth()/2, y-tank.getHeight()/2);
-                if (angle>0){
-                    paintImageToPanel(forgatott,x+10-angle/2,y-45+angle/4-angle/14);
-                    //paintImageToPanel(cannonRotation(upcannon,angle),x+55-3*angle-angle/4,y+23-cannonRotation(upcannon,angle).getHeight());
-                }
-                else{
-                    paintImageToPanel(cannonRotation(cannon,angle),x+14,y-16);
+                this.getGraphics().drawString("Tank health: "+Integer.toString(tanks.get(i).getHealth()),5,20);
+                paintImageToPanel(rotation(tank, tanks.get(i).getAngleToTerrain()), x - tank.getWidth() / 2, y - tank.getHeight() / 2);
+                if (angle > 0) {
+                    paintImageToPanel(forgatott, x + 10 - angle / 2, y - 45 + angle / 4 - angle / 14);
+                } else {
+                    paintImageToPanel(cannonRotation(cannon, angle), x + 14, y - 16);
                 }
             } else {
-                paintImageToPanel(rotation(mirror(tank),tanks.get(i).getAngleToTerrain()), x-tank.getWidth()/2, y-tank.getHeight()/2);
-                if (angle>0){
-                    paintImageToPanel(mirrorCannonRotation(mirror(upcannon),angle), x - 88,y-46);
-                }else{
-                    paintImageToPanel(mirrorCannonRotation(mirror(cannon),angle),x-48,y-16);
+                this.getGraphics().drawString("Tank health: "+Integer.toString(tanks.get(i).getHealth()),700,20);
+                paintImageToPanel(rotation(mirror(tank), tanks.get(i).getAngleToTerrain()), x - tank.getWidth() / 2, y - tank.getHeight() / 2);
+                if (angle > 0) {
+                    paintImageToPanel(mirrorCannonRotation(mirror(upcannon), angle), x - 88, y - 46);
+                } else {
+                    paintImageToPanel(mirrorCannonRotation(mirror(cannon), angle), x - 48, y - 16);
                 }
             }
         }
