@@ -31,7 +31,14 @@ public class MapModel implements Serializable{
                 }
                 break;
             case second:
-                //TODO ha a másik függvénnyel szeretnénk generálni azt itt fogjuk
+                for(int i = 0;i<mapRepresentation.length;i++){
+                    int terrainBorder = (int)SceneryGenerator.generateGraphicsWithSecondPattern(i);
+                    for (int j = 0;j<mapRepresentation[i].length;j++){
+                        if(j > terrainBorder){
+                            mapRepresentation[i][j] = true;
+                        }
+                    }
+                }
                 break;
         }
     }

@@ -13,12 +13,13 @@ public class Engine {
 
     private final transient int VEC_LENGTH = 5;
     private final transient int COLLISION_RADIUS = 40;
+    private transient boolean endOfGame = false;
 
     public Engine() {
-        this.mapModel = new MapModel();
+        this.mapModel = new MapModel(FunctionChooser.second);
         tanks = new ArrayList<>();//nope
-        tanks.add(new Tank(new Vec2D(50, mapModel.getVerticalPosition(50)-30), 10));//nope
-        tanks.add(new Tank(new Vec2D(300, mapModel.getVerticalPosition(300)-30), 10));//nope
+        tanks.add(new Tank(new Vec2D(50, mapModel.getVerticalPosition(50)-30), 3));//nope
+        tanks.add(new Tank(new Vec2D(300, mapModel.getVerticalPosition(300)-30), 3));//nope
         bullets = new ArrayList<>();
         //bullets.add( new Bullet(new Vec2D(145, 55), new Vec2D()));
     }
@@ -30,6 +31,7 @@ public class Engine {
     }
 
     public void keyEventRecognizer(KeyEvent event) {
+        if (endOfGame) return;
         Vec2D position = this.tanks.get(0).getPosition();
         switch (event.getKeyCode()) {
             case KeyEvent.VK_LEFT:
@@ -93,13 +95,20 @@ public class Engine {
             newVec.add(actualBullet.getVelocity());
             newVec.add(new Vec2D(0,1));
             actualBullet.setPosition(newVec);
+            //lövedék neki ment e a földnek
+            /*
+            if (mapModel.getMapRepresentation()[actualBullet.getPosition().getX()][actualBullet.getPosition().getY()] == true){
+                iterator.remove();
+                continue;
+            }
+             */
             for (Tank tank : tanks){
                 if (detectCollision(tank.getPosition(),actualBullet.getPosition())){
                     if(!tank.equals(tanks.get(actualBullet.getTankID()))){
                         System.out.println("tank health -1");
                         tank.setHealth(tank.getHealth() - 1);
                         if (tank.getHealth() == 0){
-                            //tank felrobbant
+                            endOfGame = true;
                             System.out.println("tank has blown up");
                         }
                         iterator.remove();
@@ -150,5 +159,13 @@ public class Engine {
 
     public int getTanksHashCode(){
         return this.tanks.hashCode();
+    }
+
+    public boolean isEndOfGame() {
+        return endOfGame;
+    }
+
+    public void setEndOfGame(boolean endOfGame) {
+        this.endOfGame = endOfGame;
     }
 }
