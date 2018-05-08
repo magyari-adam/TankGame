@@ -116,21 +116,31 @@ public class Render extends JPanel implements KeyListener {
             angle = tanks.get(i).getTurretAngle();
             forgatott = cannonRotation(upcannon, angle);
             if (i % 2 == 0) {
-                this.getGraphics().drawString("Tank health: "+Integer.toString(tanks.get(i).getHealth()),5,20);
-                paintImageToPanel(rotation(tank, tanks.get(i).getAngleToTerrain()), x - tank.getWidth() / 2, y - tank.getHeight() / 2);
-                if (angle > 0) {
-                    paintImageToPanel(forgatott, x + 10 - angle / 2, y - 45 + angle / 4 - angle / 14);
+                if (tanks.get(i).getHealth() > 0) {
+                    this.getGraphics().drawString("Tank health: " + Integer.toString(tanks.get(i).getHealth()), 5, 20);
+                    paintImageToPanel(rotation(tank, tanks.get(i).getAngleToTerrain()), x - tank.getWidth() / 2, y - tank.getHeight() / 2);
+                    if (angle > 0) {
+                        paintImageToPanel(forgatott, x + 10 - angle / 2, y - 45 + angle / 4 - angle / 14);
+                    } else {
+                        paintImageToPanel(cannonRotation(cannon, angle), x + 14, y - 16);
+                    }
                 } else {
-                    paintImageToPanel(cannonRotation(cannon, angle), x + 14, y - 16);
+                    this.getGraphics().drawString("A jobb oldal Játékos nyert!!", 350, 20);
                 }
+
             } else {
-                this.getGraphics().drawString("Tank health: "+Integer.toString(tanks.get(i).getHealth()),700,20);
-                paintImageToPanel(rotation(mirror(tank), tanks.get(i).getAngleToTerrain()), x - tank.getWidth() / 2, y - tank.getHeight() / 2);
-                if (angle > 0) {
-                    paintImageToPanel(mirrorCannonRotation(mirror(upcannon), angle), x - 88, y - 46);
+                if (tanks.get(i).getHealth() > 0) {
+                    this.getGraphics().drawString("Tank health: " + Integer.toString(tanks.get(i).getHealth()), 700, 20);
+                    paintImageToPanel(rotation(mirror(tank), tanks.get(i).getAngleToTerrain()), x - tank.getWidth() / 2, y - tank.getHeight() / 2);
+                    if (angle > 0) {
+                        paintImageToPanel(mirrorCannonRotation(mirror(upcannon), angle), x - 88, y - 46);
+                    } else {
+                        paintImageToPanel(mirrorCannonRotation(mirror(cannon), angle), x - 48, y - 16);
+                    }
                 } else {
-                    paintImageToPanel(mirrorCannonRotation(mirror(cannon), angle), x - 48, y - 16);
+                    this.getGraphics().drawString("A bal oldal Játékos nyert!!", 350, 20);
                 }
+
             }
         }
         ArrayList<Bullet> bullets = engine.getBullets();
