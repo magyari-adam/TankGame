@@ -11,7 +11,7 @@ public class ClientRefresh implements Runnable {
 
     @Override
     public void run(){
-        while(true){
+        while(!this.client.isEnd()){
             try {
                 sleep(100);
             } catch (InterruptedException e) {

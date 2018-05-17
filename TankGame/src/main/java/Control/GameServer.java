@@ -17,8 +17,6 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-import static java.lang.Thread.sleep;
-
 public class GameServer extends UnicastRemoteObject implements GameServerIFace, KeyListener {
     private final Registry reg;
     private int id;
@@ -54,22 +52,22 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
     }
 
     @Override
-    public void move(int id, int posX) {
-        if( !ready.get(id) && ready.size()>1 ){
+    public synchronized void move(int id, int posX) {
+        if(!isEnd() && !ready.get(id) && ready.size()>1 ){
             this.engine.move(posX,id);
         }
     }
 
     @Override
-    public void moveTurret(int id, int angleOffset) {
-        if ( !ready.get(id) && ready.size()>1 ) {
+    public synchronized void moveTurret(int id, int angleOffset) {
+        if (!isEnd() && !ready.get(id) && ready.size()>1 ) {
             this.engine.changeTurretAngleByOne(angleOffset, id);
         }
     }
 
     @Override
-    public void shoot(int id) {
-        if( !ready.get(id) && ready.size()>1 ) {
+    public synchronized void shoot(int id) {
+        if(!isEnd() && !ready.get(id) && ready.size()>1 ) {
             this.ready.set(id, true);
             this.engine.shoot(id % 2 == 0 ? 1 : -1, id);
 
@@ -137,8 +135,8 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
     }
 
     @Override
-    public boolean isEnd() {
-        return false;
+    public synchronized boolean isEnd() {
+        return this.engine.isEndOfGame();
     }
 
     public synchronized void refresh(){

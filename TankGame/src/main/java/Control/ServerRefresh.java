@@ -11,7 +11,7 @@ public class ServerRefresh implements Runnable {
 
     @Override
     public void run() {
-        while(true){
+        while(!this.gs.isEnd()){
             try {
                 sleep(100);
             } catch (InterruptedException e) {
