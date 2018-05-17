@@ -32,11 +32,16 @@ public class Client implements KeyListener {
         try {
             this.engine.setTanks(this.server.getTanks());
             this.engine.setBullets(this.server.getBullets());
+            this.engine.setEndOfGame(this.server.isEnd());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
 
         this.render.refresh();
+    }
+
+    public boolean isEnd(){
+        return this.engine.isEndOfGame();
     }
 
     @Override

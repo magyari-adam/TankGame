@@ -11,7 +11,7 @@ public class Engine {
     private MapModel mapModel;
 
 
-    private final transient int VEC_LENGTH = 5;
+    private final transient int VEC_LENGTH = 20;
     private final transient int COLLISION_RADIUS = 40;
     private transient boolean endOfGame = false;
 
@@ -98,7 +98,7 @@ public class Engine {
             }
 
             newVec.add(actualBullet.getVelocity());
-            newVec.add(new Vec2D(0,1));
+            actualBullet.setVelocity(Vec2D.add(actualBullet.getVelocity(),new Vec2D(0,1)));
             actualBullet.setPosition(newVec);
             for (Tank tank : tanks){
                 if (detectCollision(tank.getPosition(),actualBullet.getPosition())){
