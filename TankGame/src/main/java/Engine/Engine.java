@@ -91,17 +91,15 @@ public class Engine {
                 // bullet kiment a tablabol
                 iterator.remove();
                 continue;
-            }
-            newVec.add(actualBullet.getVelocity());
-            newVec.add(new Vec2D(0,1));
-            actualBullet.setPosition(newVec);
-            //lövedék neki ment e a földnek
-            /*
-            if (mapModel.getMapRepresentation()[actualBullet.getPosition().getX()][actualBullet.getPosition().getY()] == true){
+            }else if (mapModel.getMapRepresentation()[actualBullet.getPosition().getX()][actualBullet.getPosition().getY()] == true){
+                //bullet nekiment a földnek
                 iterator.remove();
                 continue;
             }
-             */
+
+            newVec.add(actualBullet.getVelocity());
+            newVec.add(new Vec2D(0,1));
+            actualBullet.setPosition(newVec);
             for (Tank tank : tanks){
                 if (detectCollision(tank.getPosition(),actualBullet.getPosition())){
                     if(!tank.equals(tanks.get(actualBullet.getTankID()))){
