@@ -30,11 +30,6 @@ public class Render extends JPanel implements KeyListener {
 
     /**
      * Constructor, creates a render object
-     * @param background this image, is the background image
-     * @param tank tank image
-     * @param bullet bullet image
-     * @param cannon cannon image
-     * @param upcannon if cannon angle above 0 degree, this image appear
      * @param engine this is the engine which send and information, what it should display
      */
 
