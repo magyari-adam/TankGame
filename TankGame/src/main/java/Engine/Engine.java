@@ -209,7 +209,7 @@ public class Engine {
 
     /**
      * Change all of the actual bullets to a bunch of new tanks
-     * @param bullets
+     * @param bullets list of new bullets
      */
     public void setBullets(ArrayList<Bullet> bullets) {
         this.bullets = bullets;
@@ -249,7 +249,7 @@ public class Engine {
 
     /**
      * Sets the value which determines whether the game is ended or not.
-     * @param endOfGame
+     * @param endOfGame newValue
      */
     public void setEndOfGame(boolean endOfGame) {
         this.endOfGame = endOfGame;
