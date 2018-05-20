@@ -1,11 +1,18 @@
 package Engine;
 
+/**
+ * A class which provides methods do generate scenery.
+ */
 public class SceneryGenerator {
 
     private static double helper = 0;
     private static double helper2 = 0;
 
-    // itt lesznek a függvények tárolva amelyeket majd használunk a talaj generálásához
+    /**
+     * First method to generate scenery.
+     * @param value x value of the position.
+     * @return returns the height for the specific x position.
+     */
     public static double generateGraphicsWithFirstPattern(double value){
         double width = 800.0;
         double height = 600.0;
@@ -13,8 +20,12 @@ public class SceneryGenerator {
 
     }
 
+    /**
+     * Second method to generate scenery
+     * @param value x value of the position.
+     * @return returns the height for the specific x position.
+     */
     public static double generateGraphicsWithSecondPattern(double value){
-        //TODO ha szeretnénk még másik függvényt akkor ide írjuk
         double width = 800.0;
         double height = 600.0;
         if (value < 100){

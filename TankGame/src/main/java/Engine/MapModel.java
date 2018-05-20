@@ -3,11 +3,17 @@ package Engine;
 import java.io.Serializable;
 import java.util.Arrays;
 
+/**
+ *  This class represents a matrix, which is the backend of the game board.
+ */
 public class MapModel implements Serializable{
 
     private static final long serialVersionUID = 50L;
     private boolean[][] mapRepresentation = new boolean[800][600];
 
+    /**
+     * Default constructor, constructs a map (matrix) with default values.
+     */
     public MapModel(){
         for(int i = 0;i<mapRepresentation.length;i++){
             for(int j = 0;j<mapRepresentation[0].length;j++){
@@ -18,6 +24,10 @@ public class MapModel implements Serializable{
         }
     }
 
+    /**
+     * Constructor, creates a map with the given scenery generator method.
+     * @param chooser To which generator pattern used by the constructor, it depends on which enumeration value passed in.
+     */
     public MapModel(FunctionChooser chooser){
         switch (chooser){
             case first:
@@ -43,6 +53,11 @@ public class MapModel implements Serializable{
         }
     }
 
+    /**
+     * Refreshes the map
+     * @param position position of the bullet
+     * @param radius radius of the point where the bullet hits the ground
+     */
     public void refreshMap(Vec2D position,int radius){
         mapRepresentation[position.getX()][position.getY()] = false;
         for (int i = 0;i<radius;i++){
@@ -53,25 +68,20 @@ public class MapModel implements Serializable{
         }
     }
 
-
-    public int getFloorHeight(int column){
-        if (column >= mapRepresentation.length) return -1; //this means, that the parameter is bigger than the size of the array
-        int counter = 0;
-        for (int j = 0;j<mapRepresentation[column].length;j++){
-            if (mapRepresentation[column][j]){
-                return ++counter;
-            }else{
-                counter++;
-            }
-        }
-        return counter;
-    }
-
+    /**
+     *
+     * @return returns the whole map, by reference
+     */
     public boolean[][] getMapRepresentation(){
-        // nincs másolva, referencia van visszadva
         return this.mapRepresentation;
     }
 
+
+    /**
+     * Gives the height of the map in a specific position.
+     * @param horizontalPos column number
+     * @return return value: height
+     */
     public int getVerticalPosition(int horizontalPos){
         if (horizontalPos < 0 || horizontalPos > 800){
             return 0;
@@ -86,6 +96,10 @@ public class MapModel implements Serializable{
         return index;
     }
 
+    /**
+     * Textual representation of the mapmodel.
+     * @return returns the textual representation as string.
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -98,6 +112,11 @@ public class MapModel implements Serializable{
         return sb.toString();
     }
 
+    /**
+     * Returns true if two mapmodel objects are identical.
+     * @param o the another mapmodel object
+     * @return the value of the check, can be true or false.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,6 +125,10 @@ public class MapModel implements Serializable{
         return Arrays.equals(mapRepresentation, mapModel.mapRepresentation);
     }
 
+    /**
+     *
+     * @return generates hash value for the mapmodel.
+     */
     @Override
     public int hashCode() {
         return Arrays.hashCode(mapRepresentation);
