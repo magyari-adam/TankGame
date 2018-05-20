@@ -99,8 +99,8 @@ public class Bullet implements Serializable{
     }
 
     /**
-     * generates hash value for the Bullet object.
-     * @return
+     *
+     * @return generates hash value for the Bullet object.
      */
     @Override
     public int hashCode() {
