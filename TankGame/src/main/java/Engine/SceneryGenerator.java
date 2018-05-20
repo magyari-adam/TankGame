@@ -1,7 +1,7 @@
 package Engine;
 
 /**
- * A class which provides methods do generate scenery.
+ * A class which provides methods to generate scenery.
  */
 public class SceneryGenerator {
 
