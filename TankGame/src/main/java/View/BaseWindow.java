@@ -8,7 +8,7 @@ public class BaseWindow extends JFrame{
 
     protected void exit(){
 
-        int returnVal = JOptionPane.showConfirmDialog(this,"Valóban ki akar lépni?","Megerősítés",JOptionPane.YES_NO_OPTION);
+        int returnVal = JOptionPane.showConfirmDialog(this,"Are you sure you wish to quit the game?","Confirmation",JOptionPane.YES_NO_OPTION);
         if (returnVal == JOptionPane.YES_NO_OPTION) System.exit(0);
 
     }

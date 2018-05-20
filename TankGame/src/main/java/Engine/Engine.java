@@ -52,7 +52,7 @@ public class Engine {
                 shoot(1,0);
                 break;
             default:
-                System.out.println("Unrecognized indentifier");
+                System.out.println("Unrecognized identifier");
         }
     }
 

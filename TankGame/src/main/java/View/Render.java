@@ -125,7 +125,7 @@ public class Render extends JPanel implements KeyListener {
                         paintImageToPanel(cannonRotation(cannon, angle), x + 14, y - 16);
                     }
                 } else {
-                    this.getGraphics().drawString("A jobb oldal Játékos nyert!!", 350, 20);
+                    this.getGraphics().drawString("A jobb oldali Játékos nyert!!", 350, 20);
                 }
 
             } else {
@@ -138,7 +138,7 @@ public class Render extends JPanel implements KeyListener {
                         paintImageToPanel(mirrorCannonRotation(mirror(cannon), angle), x - 48, y - 16);
                     }
                 } else {
-                    this.getGraphics().drawString("A bal oldal Játékos nyert!!", 350, 20);
+                    this.getGraphics().drawString("A bal oldali Játékos nyert!!", 350, 20);
                 }
 
             }
