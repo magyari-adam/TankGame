@@ -15,6 +15,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+* This type, represent a Render type.
+*/
+
 public class Render extends JPanel implements KeyListener {
 
     private BufferedImage background;
@@ -23,6 +27,16 @@ public class Render extends JPanel implements KeyListener {
     private BufferedImage cannon;
     private BufferedImage upcannon;
     private Engine engine;
+
+    /**
+     * Constructor, creates a render object
+     * @param background this image, is the background image
+     * @param tank tank image
+     * @param bullet bullet image
+     * @param cannon cannon image
+     * @param upcannon if cannon angle above 0 degree, this image appear
+     * @param engine this is the engine which send and information, what it should display
+     */
 
     public Render(Engine engine) {
         this.addKeyListener(this);
@@ -43,12 +57,17 @@ public class Render extends JPanel implements KeyListener {
         }
         this.engine = engine;
     }
+    /**
+     * Help to handle keylistener
+     */
 
     public void changeKeyListener(KeyListener k) {
         this.removeKeyListener(this.getKeyListeners()[0]);
         this.addKeyListener(k);
     }
-
+        /**
+         * This method create a battlefield.
+         */
     private void paintBattleground() {
         boolean[][] map = engine.getMap().getMapRepresentation();
         Polygon p = new Polygon();
@@ -64,9 +83,17 @@ public class Render extends JPanel implements KeyListener {
         this.getGraphics().fillPolygon(p);
     }
 
+    /**
+     * This method, paint the background image
+     */
+
     private void paintBackgroundToPanel() {
         this.getGraphics().drawImage(background, 0, 0, this.getWidth(), this.getHeight(), 0, 0, background.getWidth(), background.getHeight(), null);
     }
+
+    /**
+     *This method, paint any image to the panel
+     */
 
     private void paintImageToPanel(BufferedImage image, int pozX1, int pozY1) {
         int height = image.getHeight();
@@ -74,6 +101,12 @@ public class Render extends JPanel implements KeyListener {
         this.getGraphics().drawImage(image, pozX1, pozY1, pozX1 + width, pozY1 + height, 0, 0, width, height, null);
         //https://stackoverflow.com/questions/24063351/drawing-certain-parts-of-image-offset-from-the-corner
     }
+
+    /**
+     * @param image is the image, what it rotate
+     * @param angle, this is the angle, as far as can rotate
+     * @return  the rotated image.
+     */
 
     private BufferedImage rotation(BufferedImage image, int angle) {
         BufferedImage after = new BufferedImage(image.getWidth() + 10, image.getHeight() + 10, image.getType());
@@ -84,12 +117,23 @@ public class Render extends JPanel implements KeyListener {
         return after;
     }
 
+    /**
+     * @param image is the cannon image, what it rotate
+     * @param angle, this is the angle, as far as can rotate
+     * @return  the rotated image.
+     */
+
     private BufferedImage cannonRotation(BufferedImage image, int angle) {
         AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(-1 * angle), 0, 0);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         return op.filter(image, null);
 
     }
+    /**
+     * @param image is the cannon, what it rotate
+     * @param angle, this is the angle, as far as can rotate
+     * @return  the rotated image.
+     */
 
     private BufferedImage mirrorCannonRotation(BufferedImage image, int angle) {
         AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(angle), image.getWidth(), image.getHeight());
@@ -97,12 +141,21 @@ public class Render extends JPanel implements KeyListener {
         return op.filter(image, null);
     }
 
+    /**
+     * @param image is the image, what it mirror
+     * @return  the mirrored image.
+     */
+
     private BufferedImage mirror(BufferedImage image) {
         AffineTransform at = AffineTransform.getScaleInstance(-1, 1);
         at.translate(-image.getWidth(null), 0);
         AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         return scaleOp.filter(image, null);
     }
+
+    /**
+     * This method do the full panel refresh
+     */
 
     public void refresh() {
         paintBackgroundToPanel();
@@ -125,7 +178,7 @@ public class Render extends JPanel implements KeyListener {
                         paintImageToPanel(cannonRotation(cannon, angle), x + 14, y - 16);
                     }
                 } else {
-                    this.getGraphics().drawString("A jobb oldali Játékos nyert!!", 350, 20);
+                    this.getGraphics().drawString("The right side player win!!", 350, 20);
                 }
 
             } else {
@@ -138,7 +191,7 @@ public class Render extends JPanel implements KeyListener {
                         paintImageToPanel(mirrorCannonRotation(mirror(cannon), angle), x - 48, y - 16);
                     }
                 } else {
-                    this.getGraphics().drawString("A bal oldali Játékos nyert!!", 350, 20);
+                    this.getGraphics().drawString("The left side player win!!", 350, 20);
                 }
 
             }
@@ -161,6 +214,9 @@ public class Render extends JPanel implements KeyListener {
 
     }
 
+
+    /**
+     * This method handle the KeyEvents*/
     @Override
     public void keyReleased(KeyEvent e) {
         engine.keyEventRecognizer(e);
