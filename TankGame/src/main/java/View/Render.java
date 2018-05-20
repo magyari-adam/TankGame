@@ -54,6 +54,7 @@ public class Render extends JPanel implements KeyListener {
     }
     /**
      * Help to handle keylistener
+     * @param k this is the KeyEvent
      */
 
     public void changeKeyListener(KeyListener k) {
