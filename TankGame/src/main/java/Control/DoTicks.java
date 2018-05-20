@@ -2,6 +2,11 @@ package Control;
 
 import static java.lang.Thread.sleep;
 
+
+/**
+ * Tick timer runnable.
+ */
+
 public class DoTicks implements Runnable {
     private GameServer gs;
 

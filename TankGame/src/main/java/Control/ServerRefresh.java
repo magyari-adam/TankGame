@@ -2,6 +2,9 @@ package Control;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * Server side frame redraw timer.
+ */
 public class ServerRefresh implements Runnable {
     private GameServer gs;
 

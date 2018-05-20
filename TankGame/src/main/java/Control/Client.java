@@ -16,6 +16,13 @@ public class Client implements KeyListener {
     private final GameServerIFace server;
     private final int id;
 
+    /**
+     * @param ipAddress ip address of server
+     * @param engine {@link Engine} to use
+     * @param render {@link Render} to use
+     * @throws RemoteException If server is not found.
+     * @throws NotBoundException If server object is not bound in the registry.
+     */
     public Client(String ipAddress, Engine engine, Render render) throws RemoteException, NotBoundException {
         this.engine = engine;
         this.render = render;
@@ -28,6 +35,9 @@ public class Client implements KeyListener {
         refresh.start();
     }
 
+    /**
+     * Refreshes data from server.
+     */
     public synchronized void refreshFromServer(){
         try {
             this.engine.setTanks(this.server.getTanks());
@@ -40,6 +50,9 @@ public class Client implements KeyListener {
         this.render.refresh();
     }
 
+    /**
+     * @return true if game ended, otherwise false
+     */
     public boolean isEnd(){
         return this.engine.isEndOfGame();
     }
@@ -54,6 +67,10 @@ public class Client implements KeyListener {
 
     }
 
+    /**
+     * Maps keystrokes to {@link Engine} method calls on the server.
+     * @param e {@link KeyEvent}
+     */
     @Override
     public synchronized void keyReleased(KeyEvent e) {
         Vec2D position = this.engine.getTanks().get(this.id).getPosition();

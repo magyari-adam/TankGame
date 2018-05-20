@@ -2,6 +2,9 @@ package Control;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * Client side frame redraw timer.
+ */
 public class ClientRefresh implements Runnable {
     private Client client;
 

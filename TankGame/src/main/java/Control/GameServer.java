@@ -24,6 +24,11 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
     private final Render render;
     private ArrayList<Boolean> ready;
 
+    /**
+     * @param engine {@link Engine} to use
+     * @param render {@link Render} to use
+     * @throws RemoteException If binding failed.
+     */
     public GameServer(Engine engine, Render render) throws RemoteException{
         this.id = 1;
         this.ready = new ArrayList<>();
@@ -42,6 +47,9 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
         r.start();
     }
 
+    /**
+     * Unbinds server.
+     */
     public void clean(){
         try {
             this.reg.unbind("senshado");
@@ -78,10 +86,16 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
         }
     }
 
+    /**
+     * Tells the {@link Engine} to do the tick calculations.
+     */
     public synchronized void doTick(){
         this.engine.tick();
     }
 
+    /**
+     * Unreadies all players.
+     */
     public synchronized void unReadyAll(){
         for (int i = 0; i<ready.size();i++){
             ready.set(i,false);
@@ -139,6 +153,9 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
         return this.engine.isEndOfGame();
     }
 
+    /**
+     * Tells {@link Render} to refresh.
+     */
     public synchronized void refresh(){
         this.render.refresh();
     }
@@ -153,6 +170,10 @@ public class GameServer extends UnicastRemoteObject implements GameServerIFace, 
 
     }
 
+    /**
+     * Maps keystrokes to {@link Engine} method calls
+     * @param e {@link KeyEvent}
+     */
     @Override
     public synchronized void keyReleased(KeyEvent e) {
         Vec2D position = this.engine.getTanks().get(0).getPosition();
